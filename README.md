@@ -1,4 +1,4 @@
-# Spend Tracker
+# Ledger
 
 A modern, client-side web application built with React and TypeScript to manage and track personal expenses. The application operates entirely in the browser using localStorage, ensuring complete data privacy and immediate usability without the need for a backend or database setup.
 
