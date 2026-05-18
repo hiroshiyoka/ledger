@@ -7,6 +7,7 @@ A modern, client-side web application built with React and TypeScript to manage 
 - Expense Categorization: Separate tracking for Daily Spend (routine expenses) and Big Spend (large or incidental expenses).
 - Complete CRUD Operations: Create, read, update, and delete expense entries seamlessly.
 - Automatic Calculation: Real-time calculation and display of total expenses for each category.
+- PDF Export: Download summaries of all expenses or specific categories (Daily/Big spend) as PDF documents.
 - Pagination: Built-in pagination for expense lists to manage large datasets efficiently (configured to 5 items per page).
 - Persistent Storage: Data is automatically saved to and retrieved from the browser's localStorage, ensuring no data is lost upon page refresh or browser restart.
 - Modern Dark Interface: A responsive, professional dark mode UI utilizing Tailwind CSS, featuring glassmorphism design principles and smooth animations.

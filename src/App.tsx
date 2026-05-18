@@ -7,6 +7,7 @@ import SummaryCard from './components/SummaryCard';
 import type { SpendItem } from './types';
 
 import { useSpendItems } from './hooks/useSpendItems';
+import { generateSpendPDF } from './services/pdfService';
 
 export default function App() {
   const { dailyItems, bigItems, dailyTotal, bigTotal, addItem, updateItem, deleteItem } = useSpendItems();
@@ -24,11 +25,20 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-950 text-slate-200 selection:bg-indigo-500/30 overflow-x-hidden">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <header className="mb-8 text-center sm:text-left animate-slide-up opacity-0">
-          <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-300">
-            💸 Ledger
-          </h1>
-          <p className="mt-2 text-indigo-200/60 font-medium">Lacak pengeluaranmu dengan mudah dan menyenangkan!</p>
+        <header className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left animate-slide-up opacity-0">
+          <div>
+            <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-300">
+              💸 Ledger
+            </h1>
+            <p className="mt-2 text-indigo-200/60 font-medium">Lacak pengeluaranmu dengan mudah dan menyenangkan!</p>
+          </div>
+          <button
+            onClick={() => generateSpendPDF(dailyItems, bigItems, 'all')}
+            className="flex items-center gap-2 rounded-xl bg-indigo-500/20 px-4 py-2 font-medium text-indigo-300 transition-colors hover:bg-indigo-500/30 active:bg-indigo-500/40 border border-indigo-500/30"
+            title="Download PDF Semua Pengeluaran"
+          >
+            <span>📥</span> Download PDF
+          </button>
         </header>
 
         <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 animate-slide-up opacity-0" style={{ animationDelay: '100ms' }}>
@@ -55,9 +65,18 @@ export default function App() {
 
         <div className="space-y-8">
           <section className="rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-xl p-6 shadow-2xl shadow-black/50 sm:p-8 animate-slide-up opacity-0" style={{ animationDelay: '300ms' }}>
-            <h2 className="mb-4 text-base font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2">
-              <span>🍔</span> Daily Spend
-            </h2>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-base font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2">
+                <span>🍔</span> Daily Spend
+              </h2>
+              <button
+                onClick={() => generateSpendPDF(dailyItems, bigItems, 'daily')}
+                className="text-teal-300/70 hover:text-teal-300 transition-colors"
+                title="Download PDF Daily Spend"
+              >
+                📥
+              </button>
+            </div>
             <SpendList
               items={dailyItems}
               onEdit={setEditItem}
@@ -66,9 +85,18 @@ export default function App() {
           </section>
 
           <section className="rounded-3xl border border-white/10 bg-slate-900/50 backdrop-blur-xl p-6 shadow-2xl shadow-black/50 sm:p-8 animate-slide-up opacity-0" style={{ animationDelay: '400ms' }}>
-            <h2 className="mb-4 text-base font-bold text-rose-300 uppercase tracking-wider flex items-center gap-2">
-              <span>🚀</span> Big Spend
-            </h2>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-base font-bold text-rose-300 uppercase tracking-wider flex items-center gap-2">
+                <span>🚀</span> Big Spend
+              </h2>
+              <button
+                onClick={() => generateSpendPDF(dailyItems, bigItems, 'big')}
+                className="text-rose-300/70 hover:text-rose-300 transition-colors"
+                title="Download PDF Big Spend"
+              >
+                📥
+              </button>
+            </div>
             <SpendList
               items={bigItems}
               onEdit={setEditItem}
