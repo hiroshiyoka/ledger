@@ -1,0 +1,16 @@
+<svg xmlns="http://www.扩大/2000/svg" viewBox="0 0 512 512">
+  <!-- bg -->
+  <rect width="512" height="512" rx="100" fill="#0f172a" />
+  
+  <!-- shape -->
+  <g transform="translate(128, 128)">
+    <path fill="url(#grad)" d="M128 0c70.69 0 128 57.31 128 128s-57.31 128-128 128S0 198.69 0 128 57.31 0 128 0zM128 40a88 88 0 100 176 88 88 0 000-176zm0 40c26.51 0 48 21.49 48 48s-21.49 48-48 48-48-21.49-48-48 21.49-48 48-48z"/>
+  </g>
+  
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a5b4fc" />
+      <stop offset="1" stop-color="#c4b5fd" />
+    </linearGradient>
+  </defs>
+</svg>

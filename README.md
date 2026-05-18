@@ -7,7 +7,12 @@ A modern, client-side web application built with React and TypeScript to manage 
 - Expense Categorization: Separate tracking for Daily Spend (routine expenses) and Big Spend (large or incidental expenses).
 - Complete CRUD Operations: Create, read, update, and delete expense entries seamlessly.
 - Automatic Calculation: Real-time calculation and display of total expenses for each category.
+- Dashboard & Analytics: Interactive Pie and Bar charts visualizing expense distributions and trends over the last 7 days.
+- Budget Tracking: Set monthly budget limits with dynamic progress bars alerting you when limits are approached.
+- Advanced Filtering: Search by expense name and filter globally by date range (Today, 7 Days, This Month, All Time).
+- Data Portability (Backup/Restore): Export your local data securely as a `.json` backup file or import existing ones.
 - PDF Export: Download summaries of all expenses or specific categories (Daily/Big spend) as PDF documents.
+- PWA Support: Installable as a Progressive Web App (PWA) for desktop and mobile devices, supporting offline functionality.
 - Pagination: Built-in pagination for expense lists to manage large datasets efficiently (configured to 5 items per page).
 - Persistent Storage: Data is automatically saved to and retrieved from the browser's localStorage, ensuring no data is lost upon page refresh or browser restart.
 - Modern Dark Interface: A responsive, professional dark mode UI utilizing Tailwind CSS, featuring glassmorphism design principles and smooth animations.
@@ -17,6 +22,8 @@ A modern, client-side web application built with React and TypeScript to manage 
 - Framework: React 18 (setup via Vite)
 - Language: TypeScript
 - Styling: Tailwind CSS
+- Charts: Recharts
+- PWA & Build Tools: vite-plugin-pwa, Vite Manual Chunks
 - Icons: Lucide React
 - State Management & Storage: React Hooks combined with standard Web Storage API (localStorage)
 

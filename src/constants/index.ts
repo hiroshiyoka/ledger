@@ -1,5 +1,6 @@
 export const STORAGE_KEYS = {
   SPEND_ITEMS: 'spend-tracker-items',
+  BUDGET_LIMIT: 'spend-tracker-budget',
 } as const;
 
 export const MAX_NAME_LENGTH = 100;
