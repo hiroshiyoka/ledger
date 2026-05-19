@@ -13,16 +13,18 @@ A modern, client-side web application built with React and TypeScript to manage 
 - Data Portability (Backup/Restore): Export your local data securely as a `.json` backup file or import existing ones.
 - PDF Export: Download summaries of all expenses or specific categories (Daily/Big spend) as PDF documents.
 - PWA Support: Installable as a Progressive Web App (PWA) for desktop and mobile devices, supporting offline functionality.
+- Multi-Language Support (i18n): Fully translated into 6 languages (English, Indonesian, Spanish, Japanese, Chinese, Arabic) with automatic language detection.
 - Pagination: Built-in pagination for expense lists to manage large datasets efficiently (configured to 5 items per page).
 - Persistent Storage: Data is automatically saved to and retrieved from the browser's localStorage, ensuring no data is lost upon page refresh or browser restart.
-- Modern Dark Interface: A responsive, professional dark mode UI utilizing Tailwind CSS, featuring glassmorphism design principles and smooth animations.
+- Theming (Light/Dark Mode): A responsive, professional UI supporting Light, Dark, and System theme preferences utilizing Tailwind CSS, featuring glassmorphism design principles and smooth animations.
 
 ## Tech Stack
 
 - Framework: React 18 (setup via Vite)
 - Language: TypeScript
 - Styling: Tailwind CSS
-- Charts: Recharts
+- Charts & PDF: Recharts, jsPDF, jspdf-autotable
+- Internationalization: i18next, react-i18next
 - PWA & Build Tools: vite-plugin-pwa, Vite Manual Chunks
 - Icons: Lucide React
 - State Management & Storage: React Hooks combined with standard Web Storage API (localStorage)

@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { TFunction } from 'i18next';
 import autoTable from 'jspdf-autotable';
 
 import type { SpendItem } from '../types';
@@ -6,12 +7,6 @@ import type { SpendItem } from '../types';
 import { formatCurrency } from '../utils/format';
 
 type ExportScope = 'daily' | 'big' | 'all';
-
-const SCOPE_LABEL: Record<ExportScope, string> = {
-  daily: 'Daily Spend',
-  big: 'Big Spend',
-  all: 'Semua Pengeluaran',
-};
 
 function formatDateShort(dateStr: string): string {
   const date = new Date(dateStr);
@@ -28,8 +23,15 @@ function formatDateShort(dateStr: string): string {
 export function generateSpendPDF(
   dailyItems: SpendItem[],
   bigItems: SpendItem[],
-  scope: ExportScope
+  scope: ExportScope,
+  t: TFunction
 ): void {
+  const SCOPE_LABEL: Record<ExportScope, string> = {
+    daily: t('daily_spend'),
+    big: t('big_spend'),
+    all: t('app_title'),
+  };
+
   const doc = new jsPDF();
   const margin = 20;
   const today = new Date().toLocaleDateString('id-ID', {
@@ -74,7 +76,7 @@ export function generateSpendPDF(
   let summaryY = 52;
   doc.setFontSize(13);
   doc.setTextColor(50, 50, 50);
-  doc.text('Ringkasan', margin, summaryY);
+  doc.text('Summary', margin, summaryY);
   summaryY += 7;
 
   doc.setFontSize(10);
@@ -82,7 +84,7 @@ export function generateSpendPDF(
 
   if (scope === 'all' || scope === 'daily') {
     doc.text(
-      'Daily Spend:     ' + formatCurrency(dailyTotal),
+      `${t('daily_spend')}:     ` + formatCurrency(dailyTotal),
       margin, summaryY
     );
     summaryY += 5;
@@ -90,7 +92,7 @@ export function generateSpendPDF(
 
   if (scope === 'all' || scope === 'big') {
     doc.text(
-      'Big Spend:        ' + formatCurrency(bigTotal),
+      `${t('big_spend')}:        ` + formatCurrency(bigTotal),
       margin, summaryY
     );
     summaryY += 5;
@@ -100,7 +102,7 @@ export function generateSpendPDF(
     doc.setFontSize(11);
     doc.setTextColor(50, 50, 50);
     doc.text(
-      'Total Keseluruhan: ' + formatCurrency(grandTotal),
+      `${t('total')}: ` + formatCurrency(grandTotal),
       margin, summaryY
     );
   }
@@ -109,8 +111,8 @@ export function generateSpendPDF(
   const tableStartY = (scope === 'all' ? summaryY + 8 : summaryY + 8);
 
   const columns: string[] = scope === 'all'
-    ? ['No', 'Nama', 'Nominal', 'Tanggal', 'Kategori']
-    : ['No', 'Nama', 'Nominal', 'Tanggal'];
+    ? ['No', t('expense_name'), t('amount'), t('date'), t('category')]
+    : ['No', t('expense_name'), t('amount'), t('date')];
 
   const rows: (string | number)[][] = filteredItems.map((item, index) => {
     const base = [
