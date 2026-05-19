@@ -1,34 +1,19 @@
 import jsPDF from 'jspdf';
-import { TFunction } from 'i18next';
 import autoTable from 'jspdf-autotable';
 
-import type { SpendItem } from '../types';
+import type { Transaction } from '../types';
+import { formatCurrency, formatDate } from '../utils/format';
 
-import { formatCurrency } from '../utils/format';
-
-type ExportScope = 'daily' | 'big' | 'all';
-
-function formatDateShort(dateStr: string): string {
-  const date = new Date(dateStr);
-
-  if (isNaN(date.getTime())) return dateStr;
-  
-  return date.toLocaleDateString('id-ID', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
+type ExportScope = 'income' | 'expense' | 'all';
 
 export function generateSpendPDF(
-  dailyItems: SpendItem[],
-  bigItems: SpendItem[],
+  transactions: Transaction[],
   scope: ExportScope,
-  t: TFunction
+  t: (key: string) => string
 ): void {
   const SCOPE_LABEL: Record<ExportScope, string> = {
-    daily: t('daily_spend'),
-    big: t('big_spend'),
+    income: t('total_income'),
+    expense: t('total_expense'),
     all: t('app_title'),
   };
 
@@ -42,25 +27,22 @@ export function generateSpendPDF(
     minute: '2-digit',
   });
 
-  let filteredItems: SpendItem[];
-  let dailyTotal = 0;
-  let bigTotal = 0;
+  let filteredItems: Transaction[] = transactions;
+  let incomeTotal = 0;
+  let expenseTotal = 0;
 
-  if (scope === 'daily') {
-    filteredItems = dailyItems;
-    dailyTotal = dailyItems.reduce((s, i) => s + i.amount, 0);
-  } else if (scope === 'big') {
-    filteredItems = bigItems;
-    bigTotal = bigItems.reduce((s, i) => s + i.amount, 0);
+  if (scope === 'income') {
+    filteredItems = transactions.filter(t => t.type === 'income');
+    incomeTotal = filteredItems.reduce((s, i) => s + i.amount, 0);
+  } else if (scope === 'expense') {
+    filteredItems = transactions.filter(t => t.type === 'expense');
+    expenseTotal = filteredItems.reduce((s, i) => s + i.amount, 0);
   } else {
-    filteredItems = [...dailyItems, ...bigItems].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    dailyTotal = dailyItems.reduce((s, i) => s + i.amount, 0);
-    bigTotal = bigItems.reduce((s, i) => s + i.amount, 0);
+    incomeTotal = transactions.filter(t => t.type === 'income').reduce((s, i) => s + i.amount, 0);
+    expenseTotal = transactions.filter(t => t.type === 'expense').reduce((s, i) => s + i.amount, 0);
   }
 
-  const grandTotal = dailyTotal + bigTotal;
+  const grandTotal = incomeTotal - expenseTotal;
 
   // --- Header ---
   doc.setFontSize(22);
@@ -82,17 +64,19 @@ export function generateSpendPDF(
   doc.setFontSize(10);
   doc.setTextColor(80, 80, 80);
 
-  if (scope === 'all' || scope === 'daily') {
+  if (scope === 'all' || scope === 'income') {
+    doc.setTextColor(16, 185, 129); // Emerald
     doc.text(
-      `${t('daily_spend')}:     ` + formatCurrency(dailyTotal),
+      `${t('total_income')}:  ` + formatCurrency(incomeTotal),
       margin, summaryY
     );
     summaryY += 5;
   }
 
-  if (scope === 'all' || scope === 'big') {
+  if (scope === 'all' || scope === 'expense') {
+    doc.setTextColor(244, 63, 94); // Rose
     doc.text(
-      `${t('big_spend')}:        ` + formatCurrency(bigTotal),
+      `${t('total_expense')}: ` + formatCurrency(expenseTotal),
       margin, summaryY
     );
     summaryY += 5;
@@ -102,32 +86,25 @@ export function generateSpendPDF(
     doc.setFontSize(11);
     doc.setTextColor(50, 50, 50);
     doc.text(
-      `${t('total')}: ` + formatCurrency(grandTotal),
+      `${t('net_balance')}:  ` + formatCurrency(grandTotal),
       margin, summaryY
     );
   }
 
   // --- Table ---
-  const tableStartY = (scope === 'all' ? summaryY + 8 : summaryY + 8);
+  const tableStartY = summaryY + 8;
 
-  const columns: string[] = scope === 'all'
-    ? ['No', t('expense_name'), t('amount'), t('date'), t('category')]
-    : ['No', t('expense_name'), t('amount'), t('date')];
+  const columns: string[] = ['No', t('date'), t('name'), t('type'), t('amount')];
 
-  const rows: (string | number)[][] = filteredItems.map((item, index) => {
-    const base = [
+  const rows: (string | number)[][] = filteredItems
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((item, index) => [
       index + 1,
+      formatDate(item.date),
       item.name,
-      'Rp ' + item.amount.toLocaleString('id-ID'),
-      formatDateShort(item.date),
-    ];
-
-    if (scope === 'all') {
-      base.push(item.category === 'daily' ? 'Daily' : 'Big');
-    }
-    
-    return base;
-  });
+      item.type === 'income' ? t('income') : t('expense'),
+      formatCurrency(item.amount),
+    ]);
 
   autoTable(doc, {
     head: [columns],
@@ -155,7 +132,7 @@ export function generateSpendPDF(
     doc.setFontSize(8);
     doc.setTextColor(180, 180, 180);
     doc.text(
-      'Ledger - Laporan Pengeluaran | Halaman ' + i + ' dari ' + pageCount,
+      'Ledger - ' + SCOPE_LABEL[scope] + ' | Halaman ' + i + ' dari ' + pageCount,
       margin,
       doc.internal.pageSize.getHeight() - 10
     );
@@ -165,7 +142,7 @@ export function generateSpendPDF(
   if (filteredItems.length === 0) {
     doc.setFontSize(11);
     doc.setTextColor(150, 150, 150);
-    doc.text('Belum ada data pengeluaran untuk ditampilkan.', margin, tableStartY + 10);
+    doc.text('Belum ada data untuk ditampilkan.', margin, tableStartY + 10);
   }
 
   doc.save('ledger-' + scope + '-' + new Date().toISOString().slice(0, 10) + '.pdf');

@@ -1,11 +1,13 @@
 import { Wallet, Category } from '../types';
 
 export const STORAGE_KEYS = {
-  SPEND_ITEMS: 'spend-tracker-items',
+  SPEND_ITEMS: 'spend-tracker-items', // legacy
   TRANSACTIONS: 'ledger-transactions',
   WALLETS: 'ledger-wallets',
   CATEGORIES: 'ledger-categories',
   BUDGET_LIMIT: 'spend-tracker-budget',
+  CURRENCY: 'ledger-currency',
+  RECURRING: 'ledger-recurring',
 } as const;
 
 export const MAX_NAME_LENGTH = 100;

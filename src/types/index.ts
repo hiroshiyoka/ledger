@@ -35,3 +35,24 @@ export interface SpendItem {
 }
 
 export type DateFilterType = 'all' | 'today' | 'week' | 'month';
+
+export type RecurringFrequency = 'daily' | 'weekly' | 'monthly';
+
+export interface RecurringTransaction {
+  id: string;
+  name: string;
+  amount: number;
+  type: TransactionType;
+  categoryId: string;
+  walletId: string;
+  frequency: RecurringFrequency;
+  startDate: string;
+  endDate?: string;
+  lastGeneratedDate?: string;
+}
+
+export interface CurrencyConfig {
+  code: string;
+  symbol: string;
+  locale: string;
+}

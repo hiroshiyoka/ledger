@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import type { Transaction } from '../types';
 
 import { exportToJson, importFromJson } from '../services/dataService';
-// import { generateSpendPDF } from '../services/pdfService'; // Temporarily disabled for Transaction refactor
+import { exportToCsv } from '../services/csvService';
+import { generateSpendPDF } from '../services/pdfService';
+import { useCurrency } from '../hooks/useCurrency';
 
 interface DataActionsProps {
   items: Transaction[];
@@ -13,10 +15,19 @@ interface DataActionsProps {
 
 export default function DataActions({ items, onImport }: DataActionsProps) {
   const { t } = useTranslation();
+  const { currency } = useCurrency();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExportJson = () => {
     exportToJson(items);
+  };
+
+  const handleExportCsv = () => {
+    exportToCsv(items, currency.code);
+  };
+
+  const handleGeneratePDF = (scope: 'income' | 'expense' | 'all') => {
+    generateSpendPDF(items, scope, t);
   };
 
   const handleImportClick = () => {
@@ -38,7 +49,6 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
       alert((error as Error).message);
     }
     
-    // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -68,12 +78,41 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
         <span>💾</span> {t('backup')}
       </button>
       <button
-        onClick={() => alert('PDF Generation is temporarily disabled during data migration')} // () => generateSpendPDF(items, t)
-        className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 font-medium text-indigo-700 transition-colors hover:bg-indigo-100 active:bg-indigo-200 dark:border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30 dark:active:bg-indigo-500/40 opacity-50 cursor-not-allowed"
-        title={t('download_pdf_all')}
+        onClick={handleExportCsv}
+        className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 font-medium text-emerald-700 transition-colors hover:bg-emerald-100 active:bg-emerald-200 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-300 dark:hover:bg-emerald-500/30 dark:active:bg-emerald-500/40"
+        title={t('download_csv')}
       >
-        <span>📄</span> {t('pdf')}
+        <span>📊</span> {t('csv')}
       </button>
+      <div className="group relative">
+        <button
+          className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 font-medium text-indigo-700 transition-colors hover:bg-indigo-100 active:bg-indigo-200 dark:border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30 dark:active:bg-indigo-500/40"
+        >
+          <span>📄</span> {t('pdf')}
+        </button>
+        <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-10">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl p-2 min-w-[160px]">
+            <button
+              onClick={() => handleGeneratePDF('all')}
+              className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            >
+              {t('download_pdf_all')}
+            </button>
+            <button
+              onClick={() => handleGeneratePDF('income')}
+              className="w-full text-left px-3 py-2 text-sm text-emerald-600 dark:text-emerald-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            >
+              {t('download_pdf_income')}
+            </button>
+            <button
+              onClick={() => handleGeneratePDF('expense')}
+              className="w-full text-left px-3 py-2 text-sm text-rose-600 dark:text-rose-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            >
+              {t('download_pdf_expense')}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

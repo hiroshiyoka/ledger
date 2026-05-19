@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SpendForm from './components/SpendForm';
@@ -9,12 +9,14 @@ import DataActions from './components/DataActions';
 import AppSettings from './components/AppSettings';
 import DashboardCharts from './components/ExpenseCharts';
 import BudgetProgress from './components/BudgetProgress';
+import RecurringForm from './components/RecurringForm';
+import RecurringList from './components/RecurringList';
 
-import type { Transaction } from './types';
+import type { Transaction, RecurringTransaction } from './types';
 
 import { useTransactions } from './hooks/useTransactions';
 import { useBudget } from './hooks/useBudget';
-// import { generateSpendPDF } from './services/pdfService'; // PDF service needs update later, let's keep or mock
+import { useRecurring } from './hooks/useRecurring';
 
 export default function App() {
   const { t } = useTranslation();
@@ -35,7 +37,18 @@ export default function App() {
   } = useTransactions();
   
   const { budgetLimit, setBudgetLimit } = useBudget();
+  const { recurringItems, addRecurring, updateRecurring, deleteRecurring, generateTransactions } = useRecurring();
   const [editItem, setEditItem] = useState<Transaction | null>(null);
+  const [editRecurring, setEditRecurring] = useState<RecurringTransaction | null>(null);
+
+  // Generate recurring transactions on mount
+  useEffect(() => {
+    const newTx = generateTransactions();
+    if (newTx.length > 0) {
+      newTx.forEach(tx => addTransaction(tx));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = (data: Omit<Transaction, 'id'>) => {
     if (editItem) {
@@ -43,6 +56,15 @@ export default function App() {
       setEditItem(null);
     } else {
       addTransaction(data);
+    }
+  };
+
+  const handleRecurringSubmit = (data: Omit<RecurringTransaction, 'id'>) => {
+    if (editRecurring) {
+      updateRecurring(editRecurring.id, data);
+      setEditRecurring(null);
+    } else {
+      addRecurring(data);
     }
   };
 
@@ -90,6 +112,7 @@ export default function App() {
 
         <DashboardCharts items={filteredItems} />
 
+        {/* Main Transaction Form */}
         <div className="mb-8 rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 relative overflow-hidden animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '200ms' }}>
           <h2 className="mb-5 text-base font-bold text-indigo-600 dark:text-indigo-200 uppercase tracking-wider relative z-10 flex items-center gap-2">
             {editItem ? `✏️ ${t('edit')}` : `➕ ${t('add_transaction')}`}
@@ -104,11 +127,31 @@ export default function App() {
           </div>
         </div>
 
+        {/* Recurring Transactions Section */}
+        <div className="mb-8 rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 relative overflow-hidden animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '250ms' }}>
+          <h2 className="mb-5 text-base font-bold text-indigo-600 dark:text-indigo-200 uppercase tracking-wider relative z-10 flex items-center gap-2">
+            🔄 {t('recurring_transaction')}
+          </h2>
+          <div className="space-y-4">
+            <RecurringForm
+              key={editRecurring?.id ?? 'new-recurring'}
+              onSubmit={handleRecurringSubmit}
+              existingItem={editRecurring}
+              onCancelEdit={() => setEditRecurring(null)}
+            />
+            <RecurringList
+              items={recurringItems}
+              onEdit={setEditRecurring}
+              onDelete={deleteRecurring}
+            />
+          </div>
+        </div>
+
         <div className="space-y-8">
           <section className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '300ms' }}>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-base font-bold text-indigo-600 dark:text-indigo-300 uppercase tracking-wider flex items-center gap-2">
-                <span>📋</span> Riwayat Transaksi
+                <span>📋</span> {t('transaction_history')}
               </h2>
             </div>
             <SpendList
