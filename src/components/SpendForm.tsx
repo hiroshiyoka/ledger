@@ -64,24 +64,26 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="flex bg-slate-100 dark:bg-black/30 p-1 rounded-xl">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Type Toggle */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex bg-slate-100 dark:bg-black/30 p-1.5 rounded-xl">
           <button type="button" onClick={() => setType('expense')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${type === 'expense' ? 'bg-white dark:bg-slate-700 text-rose-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${type === 'expense' ? 'bg-white dark:bg-slate-700 text-rose-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
             📉 {t('expense')}
           </button>
           <button type="button" onClick={() => setType('income')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${type === 'income' ? 'bg-white dark:bg-slate-700 text-emerald-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${type === 'income' ? 'bg-white dark:bg-slate-700 text-emerald-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
             📈 {t('income')}
           </button>
         </div>
+
         <input
           type="text"
           placeholder={t('expense_name')}
           value={name}
           onChange={e => setName(e.target.value)}
-          className="flex-1 min-w-[140px] rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-3 py-2 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-1 min-w-[200px] rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
           required
         />
         <input
@@ -89,20 +91,20 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
           placeholder={t('amount')}
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          className="w-28 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-36 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
           min={0} step="0.01" required
         />
         <input
           type="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="w-36 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-44 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
           required
         />
         <select
           value={categoryId}
           onChange={e => setCategoryId(e.target.value)}
-          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer"
           required
         >
           {typeCategories.map(cat => (
@@ -112,7 +114,7 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
         <select
           value={walletId}
           onChange={e => setWalletId(e.target.value)}
-          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer"
           required
         >
           {wallets.map(w => (
@@ -120,16 +122,16 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
           ))}
         </select>
       </div>
-      {error && <p className="text-xs font-bold text-rose-500 dark:text-rose-400">{error}</p>}
-      <div className="flex items-center gap-2">
+      {error && <p className="text-sm font-bold text-rose-500 dark:text-rose-400">{error}</p>}
+      <div className="flex items-center gap-3">
         <button type="submit"
-          className="flex items-center gap-1.5 rounded-xl bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-bold text-white hover:bg-indigo-700 dark:hover:bg-indigo-400 active:scale-95 transition-all">
-          <Plus size={16} strokeWidth={3} />
+          className="flex items-center gap-2 rounded-xl bg-indigo-600 dark:bg-indigo-500 px-6 py-3 text-base font-bold text-white hover:bg-indigo-700 dark:hover:bg-indigo-400 active:scale-95 transition-all shadow-md">
+          <Plus size={20} strokeWidth={3} />
           {editItem ? t('edit') : t('add_transaction')}
         </button>
         {editItem && (
           <button type="button" onClick={onCancelEdit}
-            className="rounded-xl border border-slate-200 dark:border-white/20 px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 active:scale-95 transition-all">
+            className="rounded-xl border border-slate-200 dark:border-white/20 px-6 py-3 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 active:scale-95 transition-all">
             {t('cancel')}
           </button>
         )}
