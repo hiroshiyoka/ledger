@@ -105,7 +105,7 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
           📄 {t('pdf')} ▾
         </button>
         {showPdfMenu && (
-          <div className="absolute bottom-full left-0 mb-2 z-20 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute top-full left-0 mt-2 z-20 w-52 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl overflow-hidden">
             <button
               onClick={() => handleGeneratePDF('all')}
               className="w-full text-left px-4 py-3 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-white/10"
