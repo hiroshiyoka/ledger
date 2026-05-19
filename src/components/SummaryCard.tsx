@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
-
 import { formatCurrency } from '../utils/format';
 
 type SummaryType = 'net' | 'income' | 'expense';
@@ -39,18 +38,16 @@ export default function SummaryCard({ type, total }: SummaryCardProps) {
   const { color, bg, border, icon: Icon, labelKey } = CONFIG[type];
 
   return (
-    <div className={`rounded-3xl border ${border} ${bg} p-6 shadow-2xl shadow-black/5 dark:shadow-black/20 transition-all hover:-translate-y-1 duration-300 backdrop-blur-md`}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3 bg-white/50 dark:bg-black/20 p-2 pr-4 rounded-2xl backdrop-blur-sm border border-black/5 dark:border-white/5">
-          <div className={`p-2 bg-black/5 dark:bg-white/10 rounded-xl shadow-sm ${color}`}>
-            <Icon size={22} strokeWidth={2.5} />
-          </div>
-          <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
-            {t(labelKey)}
-          </span>
+    <div className={`rounded-2xl border ${border} ${bg} p-6 shadow-md transition-all hover:-translate-y-0.5`}>
+      <div className="flex items-center gap-3 mb-4">
+        <div className={`p-2.5 rounded-xl bg-white/60 dark:bg-black/20 shadow-sm ${color}`}>
+          <Icon size={24} strokeWidth={2.5} />
         </div>
+        <span className="text-base font-bold text-slate-600 dark:text-slate-200">
+          {t(labelKey)}
+        </span>
       </div>
-      <p className="mt-6 text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+      <p className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">
         {formatCurrency(total)}
       </p>
     </div>
