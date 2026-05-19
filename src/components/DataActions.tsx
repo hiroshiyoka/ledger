@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { Transaction } from '../types';
@@ -17,6 +17,18 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
   const { t } = useTranslation();
   const { currency } = useCurrency();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showPdfMenu, setShowPdfMenu] = useState(false);
+  const pdfMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (pdfMenuRef.current && !pdfMenuRef.current.contains(event.target as Node)) {
+        setShowPdfMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleExportJson = () => {
     exportToJson(items);
@@ -27,6 +39,7 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
   };
 
   const handleGeneratePDF = (scope: 'income' | 'expense' | 'all') => {
+    setShowPdfMenu(false);
     generateSpendPDF(items, scope, t);
   };
 
@@ -65,53 +78,54 @@ export default function DataActions({ items, onImport }: DataActionsProps) {
       />
       <button
         onClick={handleImportClick}
-        className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:active:bg-slate-600/50"
+        className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50"
         title={t('import_tooltip')}
       >
-        <span>📥</span> {t('import')}
+        📥 {t('import')}
       </button>
       <button
         onClick={handleExportJson}
-        className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:active:bg-slate-600/50"
+        className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50"
         title={t('backup_tooltip')}
       >
-        <span>💾</span> {t('backup')}
+        💾 {t('backup')}
       </button>
       <button
         onClick={handleExportCsv}
-        className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 font-medium text-emerald-700 transition-colors hover:bg-emerald-100 active:bg-emerald-200 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-300 dark:hover:bg-emerald-500/30 dark:active:bg-emerald-500/40"
+        className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 active:bg-emerald-200 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-300"
         title={t('download_csv')}
       >
-        <span>📊</span> {t('csv')}
+        📊 {t('csv')}
       </button>
-      <div className="group relative">
+      <div className="relative" ref={pdfMenuRef}>
         <button
-          className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 font-medium text-indigo-700 transition-colors hover:bg-indigo-100 active:bg-indigo-200 dark:border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30 dark:active:bg-indigo-500/40"
+          onClick={() => setShowPdfMenu(!showPdfMenu)}
+          className="flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100 active:bg-indigo-200 dark:border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300"
         >
-          <span>📄</span> {t('pdf')}
+          📄 {t('pdf')} ▾
         </button>
-        <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-10">
-          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl p-2 min-w-[160px]">
+        {showPdfMenu && (
+          <div className="absolute bottom-full left-0 mb-2 z-20 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl overflow-hidden">
             <button
               onClick={() => handleGeneratePDF('all')}
-              className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+              className="w-full text-left px-4 py-3 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-white/10"
             >
-              {t('download_pdf_all')}
+              📋 {t('download_pdf_all')}
             </button>
             <button
               onClick={() => handleGeneratePDF('income')}
-              className="w-full text-left px-3 py-2 text-sm text-emerald-600 dark:text-emerald-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+              className="w-full text-left px-4 py-3 text-sm text-emerald-600 dark:text-emerald-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-white/10"
             >
-              {t('download_pdf_income')}
+              📈 {t('download_pdf_income')}
             </button>
             <button
               onClick={() => handleGeneratePDF('expense')}
-              className="w-full text-left px-3 py-2 text-sm text-rose-600 dark:text-rose-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+              className="w-full text-left px-4 py-3 text-sm text-rose-600 dark:text-rose-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
             >
-              {t('download_pdf_expense')}
+              📉 {t('download_pdf_expense')}
             </button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
