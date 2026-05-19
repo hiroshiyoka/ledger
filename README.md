@@ -4,19 +4,21 @@ A modern, client-side web application built with React and TypeScript to manage 
 
 ## Features
 
-- Expense Categorization: Separate tracking for Daily Spend (routine expenses) and Big Spend (large or incidental expenses).
-- Complete CRUD Operations: Create, read, update, and delete expense entries seamlessly.
-- Automatic Calculation: Real-time calculation and display of total expenses for each category.
-- Dashboard & Analytics: Interactive Pie and Bar charts visualizing expense distributions and trends over the last 7 days.
-- Budget Tracking: Set monthly budget limits with dynamic progress bars alerting you when limits are approached.
-- Advanced Filtering: Search by expense name and filter globally by date range (Today, 7 Days, This Month, All Time).
-- Data Portability (Backup/Restore): Export your local data securely as a `.json` backup file or import existing ones.
-- PDF Export: Download summaries of all expenses or specific categories (Daily/Big spend) as PDF documents.
-- PWA Support: Installable as a Progressive Web App (PWA) for desktop and mobile devices, supporting offline functionality.
-- Multi-Language Support (i18n): Fully translated into 6 languages (English, Indonesian, Spanish, Japanese, Chinese, Arabic) with automatic language detection.
-- Pagination: Built-in pagination for expense lists to manage large datasets efficiently (configured to 5 items per page).
-- Persistent Storage: Data is automatically saved to and retrieved from the browser's localStorage, ensuring no data is lost upon page refresh or browser restart.
-- Theming (Light/Dark Mode): A responsive, professional UI supporting Light, Dark, and System theme preferences utilizing Tailwind CSS, featuring glassmorphism design principles and smooth animations.
+- **Transaction Management**: Comprehensive tracking for both **Income** and **Expense** transactions. Complete CRUD operations supported.
+- **Custom Currencies**: Built-in support for 10+ global currencies. Switch seamlessly and have your entire dashboard, forms, and PDF exports adapt to your preferred currency.
+- **Recurring Transactions**: Automate your finances. Setup recurring rules (Daily, Weekly, Monthly) and let the app generate transactions automatically on the due dates.
+- **Dashboard & Analytics**: Interactive Pie and Bar charts visualizing expense distributions, income vs. expense flow, and trends over time.
+- **Budget Tracking**: Set monthly budget limits with dynamic progress bars alerting you when your expenses approach the limit.
+- **Advanced Filtering**: Search by transaction name, and filter globally by date range (Today, 7 Days, This Month, All Time).
+- **Data Portability (Import/Export)**: 
+  - **JSON Backup/Restore**: Export your local data securely as a `.json` backup file or import existing ones.
+  - **CSV Export**: Export transactions to CSV format for use in spreadsheet software like Excel or Google Sheets.
+  - **PDF Reports**: Download beautifully formatted PDF summaries with custom scopes (Income Only, Expense Only, or All Transactions).
+- **Modern UI & Navbar**: A clean, fully responsive design featuring a sticky Top Navigation Bar, mobile-friendly dropdowns, and optimized touch targets. Built to work perfectly on any screen size.
+- **PWA Support**: Installable as a Progressive Web App (PWA) for desktop and mobile devices, supporting offline functionality.
+- **Multi-Language Support (i18n)**: Fully translated into 6 languages (English, Indonesian, Spanish, Japanese, Chinese, Arabic) with automatic language detection.
+- **Persistent Local Storage**: Operates entirely client-side. Data is automatically saved to and retrieved from the browser's `localStorage` ensuring absolute privacy.
+- **Theming (Light/Dark Mode)**: Supports Light, Dark, and System theme preferences utilizing Tailwind CSS, featuring glassmorphism design principles and smooth transitions.
 
 ## Tech Stack
 
@@ -37,7 +39,7 @@ The project follows a clean, layered architecture adhering to SOLID, DRY, and KI
 - /src/types: TypeScript interfaces and type definitions.
 - /src/utils: Pure utility functions for local storage operations, input validation, and data formatting.
 - /src/services: Core business logic separated from the UI layer.
-- /src/hooks: Custom React hooks (e.g., useSpendItems) to manage state and delegate tasks to the service layer.
+- /src/hooks: Custom React hooks (e.g., useTransactions, useRecurring, useTheme) to manage state and delegate tasks to the service layer.
 - /src/components: Modular and reusable presentation components (Forms, Lists, Cards).
 
 ## Getting Started
