@@ -48,5 +48,13 @@
   "name": "名前",
   "actions": "アクション",
   "page": "ページ",
-  "of": "/"
+  "of": "/",
+  "income": "収入",
+  "expense": "支出",
+  "wallet": "財布",
+  "net_balance": "純残高",
+  "total_income": "総収入",
+  "total_expense": "総支出",
+  "type": "種類",
+  "add_transaction": "トランザクションを追加"
 }

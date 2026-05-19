@@ -2,18 +2,23 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import type { SpendItem } from '../types';
+import { useWallets } from '../hooks/useWallets';
+import { useCategories } from '../hooks/useCategories';
+
+import type { Transaction } from '../types';
 import { ITEMS_PER_PAGE } from '../constants';
 import { formatCurrency, formatDate } from '../utils/format';
 
 interface SpendListProps {
-  items: SpendItem[];
-  onEdit: (item: SpendItem) => void;
+  items: Transaction[];
+  onEdit: (item: Transaction) => void;
   onDelete: (id: string) => void;
 }
 
 export default function SpendList({ items, onEdit, onDelete }: SpendListProps) {
   const { t } = useTranslation();
+  const { categories } = useCategories();
+  const { wallets } = useWallets();
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
@@ -46,44 +51,62 @@ export default function SpendList({ items, onEdit, onDelete }: SpendListProps) {
           <thead>
             <tr className="border-b border-slate-200 dark:border-white/10 text-indigo-600 dark:text-indigo-300">
               <th className="text-left py-3 px-4 font-bold">{t('name')}</th>
+              <th className="text-left py-3 px-4 font-bold">{t('category')}</th>
+              <th className="text-left py-3 px-4 font-bold">{t('wallet')}</th>
               <th className="text-right py-3 px-4 font-bold">{t('amount')}</th>
               <th className="text-left py-3 px-4 font-bold">{t('date')}</th>
               <th className="text-center py-3 px-4 font-bold w-24">{t('actions')}</th>
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((item, index) => (
-              <tr 
-                key={item.id} 
-                className={`border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${
-                  index === paginatedItems.length - 1 ? 'border-b-0' : ''
-                }`}
-              >
-                <td className="py-3 px-4 text-slate-700 dark:text-slate-200 font-medium">{item.name}</td>
-                <td className="py-3 px-4 text-right font-bold text-slate-900 dark:text-white">
-                  {formatCurrency(item.amount)}
-                </td>
-                <td className="py-3 px-4 text-slate-500 dark:text-slate-400 font-medium">{formatDate(item.date)}</td>
-                <td className="py-3 px-4">
-                  <div className="flex justify-center gap-2">
-                    <button
-                      onClick={() => onEdit(item)}
-                      className="rounded-xl p-2 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/20 active:scale-90 transition-all"
-                      title={t('edit')}
-                    >
-                      <Pencil size={16} strokeWidth={2.5} />
-                    </button>
-                    <button
-                      onClick={() => onDelete(item.id)}
-                      className="rounded-xl p-2 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-500/20 active:scale-90 transition-all"
-                      title={t('delete')}
-                    >
-                      <Trash2 size={16} strokeWidth={2.5} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {paginatedItems.map((item, index) => {
+              const category = categories.find(c => c.id === item.categoryId);
+              const wallet = wallets.find(w => w.id === item.walletId);
+              const isIncome = item.type === 'income';
+
+              return (
+                <tr 
+                  key={item.id} 
+                  className={`border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${
+                    index === paginatedItems.length - 1 ? 'border-b-0' : ''
+                  }`}
+                >
+                  <td className="py-3 px-4 text-slate-700 dark:text-slate-200 font-medium">
+                    {item.name}
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium text-white ${category?.color || 'bg-slate-500'}`}>
+                      {category?.name || 'Unknown'}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-slate-500 dark:text-slate-400">
+                    {wallet?.name || 'Unknown'}
+                  </td>
+                  <td className={`py-3 px-4 text-right font-bold ${isIncome ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}`}>
+                    {isIncome ? '+' : '-'}{formatCurrency(item.amount)}
+                  </td>
+                  <td className="py-3 px-4 text-slate-500 dark:text-slate-400 font-medium">{formatDate(item.date)}</td>
+                  <td className="py-3 px-4">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={() => onEdit(item)}
+                        className="rounded-xl p-2 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/20 active:scale-90 transition-all"
+                        title={t('edit')}
+                      >
+                        <Pencil size={16} strokeWidth={2.5} />
+                      </button>
+                      <button
+                        onClick={() => onDelete(item.id)}
+                        className="rounded-xl p-2 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-500/20 active:scale-90 transition-all"
+                        title={t('delete')}
+                      >
+                        <Trash2 size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

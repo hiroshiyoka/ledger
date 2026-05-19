@@ -1,6 +1,6 @@
-import type { SpendItem } from '../types';
+import type { Transaction } from '../types';
 
-export function exportToJson(items: SpendItem[]): void {
+export function exportToJson(items: Transaction[]): void {
   const dataStr = JSON.stringify(items, null, 2);
   const dataBlob = new Blob([dataStr], { type: 'application/json' });
   const url = URL.createObjectURL(dataBlob);
@@ -14,7 +14,7 @@ export function exportToJson(items: SpendItem[]): void {
   URL.revokeObjectURL(url);
 }
 
-export function importFromJson(file: File): Promise<SpendItem[]> {
+export function importFromJson(file: File): Promise<Transaction[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     
@@ -27,20 +27,21 @@ export function importFromJson(file: File): Promise<SpendItem[]> {
           throw new Error('Invalid backup format: Must be an array.');
         }
 
-        // Basic validation
         const isValid = parsed.every(item => 
           item.id && typeof item.id === 'string' &&
           item.name && typeof item.name === 'string' &&
           typeof item.amount === 'number' &&
           item.date && typeof item.date === 'string' &&
-          (item.category === 'daily' || item.category === 'big')
+          (item.type === 'income' || item.type === 'expense') &&
+          item.categoryId && typeof item.categoryId === 'string' &&
+          item.walletId && typeof item.walletId === 'string'
         );
 
         if (!isValid) {
           throw new Error('Invalid backup format: Item structure is incorrect.');
         }
 
-        resolve(parsed as SpendItem[]);
+        resolve(parsed as Transaction[]);
       } catch (error) {
         reject(error instanceof Error ? error : new Error('Failed to parse backup file.'));
       }

@@ -48,5 +48,13 @@
   "name": "الاسم",
   "actions": "أفعال",
   "page": "صفحة",
-  "of": "من"
+  "of": "من",
+  "income": "دخل",
+  "expense": "مصروف",
+  "wallet": "محفظة",
+  "net_balance": "الرصيد الصافي",
+  "total_income": "إجمالي الدخل",
+  "total_expense": "إجمالي المصروفات",
+  "type": "يكتب",
+  "add_transaction": "أضف معاملة"
 }

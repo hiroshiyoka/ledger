@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { SpendItem } from '../types';
+import type { Transaction } from '../types';
 import { formatCurrency } from '../utils/format';
 
 interface BudgetProgressProps {
-  items: SpendItem[];
+  items: Transaction[];
   budgetLimit: number;
   setBudgetLimit: (limit: number) => void;
 }
@@ -15,7 +15,6 @@ export default function BudgetProgress({ items, budgetLimit, setBudgetLimit }: B
   const [isEditing, setIsEditing] = useState(false);
   const [tempBudget, setTempBudget] = useState(budgetLimit.toString());
 
-  // Hitung total pengeluaran khusus di bulan ini saja
   const currentMonthTotal = useMemo(() => {
     const now = new Date();
     const currentMonth = now.getMonth();
@@ -23,17 +22,19 @@ export default function BudgetProgress({ items, budgetLimit, setBudgetLimit }: B
 
     return items.reduce((total, item) => {
       const itemDate = new Date(item.date);
+
       if (itemDate.getMonth() === currentMonth && itemDate.getFullYear() === currentYear) {
         return total + item.amount;
       }
+      
       return total;
     }, 0);
   }, [items]);
 
   const percentage = budgetLimit > 0 ? Math.min((currentMonthTotal / budgetLimit) * 100, 100) : 0;
   
-  // Tentukan warna progress bar
   let progressColor = 'bg-teal-400';
+
   if (percentage >= 90) {
     progressColor = 'bg-rose-500';
   } else if (percentage >= 75) {

@@ -48,5 +48,13 @@
   "name": "Name",
   "actions": "Actions",
   "page": "Page",
-  "of": "of"
+  "of": "of",
+  "income": "Income",
+  "expense": "Expense",
+  "wallet": "Wallet",
+  "net_balance": "Net Balance",
+  "total_income": "Total Income",
+  "total_expense": "Total Expense",
+  "type": "Type",
+  "add_transaction": "Add Transaction"
 }

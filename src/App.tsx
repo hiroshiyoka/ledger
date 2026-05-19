@@ -7,45 +7,46 @@ import FilterBar from './components/FilterBar';
 import SummaryCard from './components/SummaryCard';
 import DataActions from './components/DataActions';
 import AppSettings from './components/AppSettings';
-import ExpenseCharts from './components/ExpenseCharts';
+import DashboardCharts from './components/ExpenseCharts';
 import BudgetProgress from './components/BudgetProgress';
 
-import type { SpendItem } from './types';
+import type { Transaction } from './types';
 
-import { useSpendItems } from './hooks/useSpendItems';
+import { useTransactions } from './hooks/useTransactions';
 import { useBudget } from './hooks/useBudget';
-import { generateSpendPDF } from './services/pdfService';
+// import { generateSpendPDF } from './services/pdfService'; // PDF service needs update later, let's keep or mock
 
 export default function App() {
   const { t } = useTranslation();
   const { 
     items,
-    filteredItems, 
-    dailyItems, 
-    bigItems, 
-    dailyTotal, 
-    bigTotal, 
+    filteredItems,
+    totalIncome,
+    totalExpense,
+    netBalance,
     searchQuery,
     setSearchQuery,
     dateFilter,
     setDateFilter,
-    addItem, 
-    updateItem, 
-    deleteItem, 
-    importItems 
-  } = useSpendItems();
+    addTransaction, 
+    updateTransaction, 
+    deleteTransaction, 
+    importTransactions 
+  } = useTransactions();
   
   const { budgetLimit, setBudgetLimit } = useBudget();
-  const [editItem, setEditItem] = useState<SpendItem | null>(null);
+  const [editItem, setEditItem] = useState<Transaction | null>(null);
 
-  const handleSubmit = (data: Omit<SpendItem, 'id'>) => {
+  const handleSubmit = (data: Omit<Transaction, 'id'>) => {
     if (editItem) {
-      updateItem(editItem.id, data);
+      updateTransaction(editItem.id, data);
       setEditItem(null);
     } else {
-      addItem(data);
+      addTransaction(data);
     }
   };
+
+  const sortedItems = [...filteredItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-slate-950 dark:via-indigo-950 dark:to-violet-950 text-slate-800 dark:text-slate-200 selection:bg-indigo-500/30 overflow-x-hidden transition-colors duration-300">
@@ -53,7 +54,7 @@ export default function App() {
         <header className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-left animate-slide-up opacity-0">
           <div>
             <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-300 dark:to-purple-300">
-              💸 {t('app_title')}
+              📊 {t('app_title')}
             </h1>
             <p className="mt-2 text-slate-600 dark:text-indigo-200/60 font-medium">
               {t('app_subtitle')}
@@ -63,9 +64,7 @@ export default function App() {
             <AppSettings />
             <DataActions 
               items={filteredItems}
-              dailyItems={dailyItems} 
-              bigItems={bigItems} 
-              onImport={importItems}
+              onImport={(data: any) => importTransactions(data)}
             />
           </div>
         </header>
@@ -78,24 +77,22 @@ export default function App() {
         />
 
         <BudgetProgress 
-          items={items} 
+          items={items.filter(i => i.type === 'expense')}
           budgetLimit={budgetLimit} 
           setBudgetLimit={setBudgetLimit} 
         />
 
-        <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 animate-slide-up opacity-0" style={{ animationDelay: '100ms' }}>
-          <SummaryCard category="daily" total={dailyTotal} count={dailyItems.length} />
-          <SummaryCard category="big" total={bigTotal} count={bigItems.length} />
+        <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3 animate-slide-up opacity-0" style={{ animationDelay: '100ms' }}>
+          <SummaryCard type="income" total={totalIncome} />
+          <SummaryCard type="expense" total={totalExpense} />
+          <SummaryCard type="net" total={netBalance} />
         </div>
 
-        <ExpenseCharts items={filteredItems} dailyTotal={dailyTotal} bigTotal={bigTotal} />
+        <DashboardCharts items={filteredItems} />
 
         <div className="mb-8 rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 relative overflow-hidden animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '200ms' }}>
-          <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-[0.03] pointer-events-none">
-             <span className="text-8xl">✍️</span>
-          </div>
           <h2 className="mb-5 text-base font-bold text-indigo-600 dark:text-indigo-200 uppercase tracking-wider relative z-10 flex items-center gap-2">
-            {editItem ? `✏️ ${t('edit_expense')}` : `✨ ${t('add_expense')}`}
+            {editItem ? `✏️ ${t('edit')}` : `➕ ${t('add_transaction')}`}
           </h2>
           <div className="relative z-10">
             <SpendForm
@@ -110,41 +107,14 @@ export default function App() {
         <div className="space-y-8">
           <section className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '300ms' }}>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-bold text-teal-600 dark:text-teal-300 uppercase tracking-wider flex items-center gap-2">
-                <span>🍔</span> {t('daily_spend')}
+              <h2 className="text-base font-bold text-indigo-600 dark:text-indigo-300 uppercase tracking-wider flex items-center gap-2">
+                <span>📋</span> Riwayat Transaksi
               </h2>
-              <button
-                onClick={() => generateSpendPDF(dailyItems, bigItems, 'daily', t)}
-                className="text-teal-600/70 hover:text-teal-600 dark:text-teal-300/70 dark:hover:text-teal-300 transition-colors"
-                title={t('download_pdf_daily')}
-              >
-                📥
-              </button>
             </div>
             <SpendList
-              items={dailyItems}
+              items={sortedItems}
               onEdit={setEditItem}
-              onDelete={deleteItem}
-            />
-          </section>
-
-          <section className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 sm:p-8 animate-slide-up opacity-0 transition-colors duration-300" style={{ animationDelay: '400ms' }}>
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-bold text-rose-600 dark:text-rose-300 uppercase tracking-wider flex items-center gap-2">
-                <span>🚀</span> {t('big_spend')}
-              </h2>
-              <button
-                onClick={() => generateSpendPDF(dailyItems, bigItems, 'big', t)}
-                className="text-rose-600/70 hover:text-rose-600 dark:text-rose-300/70 dark:hover:text-rose-300 transition-colors"
-                title={t('download_pdf_big')}
-              >
-                📥
-              </button>
-            </div>
-            <SpendList
-              items={bigItems}
-              onEdit={setEditItem}
-              onDelete={deleteItem}
+              onDelete={deleteTransaction}
             />
           </section>
         </div>

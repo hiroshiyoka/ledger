@@ -48,5 +48,13 @@
   "name": "Nombre",
   "actions": "Acciones",
   "page": "Página",
-  "of": "de"
+  "of": "de",
+  "income": "Ingreso",
+  "expense": "Gasto",
+  "wallet": "Billetera",
+  "net_balance": "Saldo Neto",
+  "total_income": "Ingresos Totales",
+  "total_expense": "Gastos Totales",
+  "type": "Tipo",
+  "add_transaction": "Añadir Transacción"
 }

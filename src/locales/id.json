@@ -48,5 +48,13 @@
   "name": "Nama",
   "actions": "Aksi",
   "page": "Hal.",
-  "of": "dari"
+  "of": "dari",
+  "income": "Pemasukan",
+  "expense": "Pengeluaran",
+  "wallet": "Dompet",
+  "net_balance": "Saldo Bersih",
+  "total_income": "Total Pemasukan",
+  "total_expense": "Total Pengeluaran",
+  "type": "Tipe",
+  "add_transaction": "Tambah Transaksi"
 }

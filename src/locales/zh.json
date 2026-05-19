@@ -48,5 +48,13 @@
   "name": "名称",
   "actions": "操作",
   "page": "页",
-  "of": "/"
+  "of": "/",
+  "income": "收入",
+  "expense": "支出",
+  "wallet": "钱包",
+  "net_balance": "净余额",
+  "total_income": "总收入",
+  "total_expense": "总支出",
+  "type": "类型",
+  "add_transaction": "添加交易"
 }

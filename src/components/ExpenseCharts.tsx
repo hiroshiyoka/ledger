@@ -8,30 +8,24 @@ import {
   BarChart,
   ResponsiveContainer,
 } from 'recharts';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { SpendItem } from '../types';
+import type { Transaction } from '../types';
+import { useCategories } from '../hooks/useCategories';
 import { formatCurrency } from '../utils/format';
 import { getPieChartData, getTrendChartData } from '../utils/chartData';
 
-interface ExpenseChartsProps {
-  items: SpendItem[];
-  dailyTotal: number;
-  bigTotal: number;
+interface DashboardChartsProps {
+  items: Transaction[];
 }
 
-export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseChartsProps) {
+export default function DashboardCharts({ items }: DashboardChartsProps) {
   const { t } = useTranslation();
-  const pieData = useMemo(() => {
-    const rawData = getPieChartData(dailyTotal, bigTotal);
-    
-    return rawData.map(item => ({
-      ...item,
-      name: item.name === 'Daily Spend' ? t('daily_spend') : t('big_spend')
-    }));
-  }, [dailyTotal, bigTotal, t]);
-  
+  const { categories } = useCategories();
+  const [pieType, setPieType] = useState<'expense' | 'income'>('expense');
+
+  const pieData = useMemo(() => getPieChartData(items, categories, pieType), [items, categories, pieType]);
   const trendData = useMemo(() => getTrendChartData(items), [items]);
 
   if (items.length === 0) {
@@ -46,9 +40,11 @@ export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseCh
           <p className="mb-1 text-sm font-medium text-slate-500 dark:text-slate-300">
             {payload[0].payload.name || payload[0].payload.dateLabel}
           </p>
-          <p className="text-base font-bold text-slate-800 dark:text-white">
-            {formatCurrency(payload[0].value)}
-          </p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} className="text-sm font-bold" style={{ color: entry.fill }}>
+              {entry.name === 'income' ? t('income') : entry.name === 'expense' ? t('expense') : entry.name}: {formatCurrency(entry.value)}
+            </p>
+          ))}
         </div>
       );
     }
@@ -58,11 +54,35 @@ export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseCh
   return (
     <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 animate-slide-up opacity-0" style={{ animationDelay: '150ms' }}>
       {/* Distribution Chart (Pie) */}
-      <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 transition-colors duration-300">
-        <h2 className="mb-6 text-base font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
-          <span>🍩</span> {t('expense_distribution')}
-        </h2>
-        <div className="h-64 w-full">
+      <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl dark:shadow-black/50 transition-colors duration-300 flex flex-col">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-base font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+            <span>🍩</span> {t('expense_distribution')}
+          </h2>
+          <div className="flex gap-2 bg-slate-100 dark:bg-black/30 p-1 rounded-xl">
+             <button
+              onClick={() => setPieType('expense')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                pieType === 'expense' 
+                  ? 'bg-white dark:bg-slate-700 text-rose-500 dark:text-rose-400 shadow-sm' 
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              }`}
+            >
+              {t('expense')}
+            </button>
+            <button
+              onClick={() => setPieType('income')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                pieType === 'income' 
+                  ? 'bg-white dark:bg-slate-700 text-emerald-500 dark:text-emerald-400 shadow-sm' 
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              }`}
+            >
+              {t('income')}
+            </button>
+          </div>
+        </div>
+        <div className="h-64 w-full flex-1">
           {pieData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -90,14 +110,14 @@ export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseCh
             </div>
           )}
         </div>
-        <div className="mt-4 flex justify-center gap-6">
+        <div className="mt-4 flex flex-wrap justify-center gap-4">
           {pieData.map((entry, index) => (
             <div key={index} className="flex items-center gap-2">
               <span
-                className="h-3 w-3 rounded-full"
+                className="h-3 w-3 rounded-full shadow-sm"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
                 {entry.name}
               </span>
             </div>
@@ -124,10 +144,18 @@ export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseCh
                 />
                 <Tooltip content={renderCustomTooltip} cursor={{ fill: 'rgba(125,125,125,0.1)' }} />
                 <Bar
-                  dataKey="total"
-                  fill="#818cf8"
-                  radius={[4, 4, 4, 4]}
-                  maxBarSize={40}
+                  dataKey="income"
+                  fill="#10b981"
+                  radius={[4, 4, 0, 0]}
+                  maxBarSize={30}
+                  name="income"
+                />
+                <Bar
+                  dataKey="expense"
+                  fill="#f43f5e"
+                  radius={[4, 4, 0, 0]}
+                  maxBarSize={30}
+                  name="expense"
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -141,5 +169,3 @@ export default function ExpenseCharts({ items, dailyTotal, bigTotal }: ExpenseCh
     </div>
   );
 }
-
-
