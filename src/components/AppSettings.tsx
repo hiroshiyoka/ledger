@@ -4,20 +4,20 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../hooks/useTheme';
 import { useCurrency, CURRENCIES } from '../hooks/useCurrency';
 
-export default function AppSettings() {
+export default function AppSettings({ isVertical = false }: { isVertical?: boolean }) {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const { currency, setCurrency } = useCurrency();
   const [showCurrency, setShowCurrency] = useState(false);
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+    <div className={`flex ${isVertical ? 'flex-col items-stretch' : 'flex-wrap items-center'} gap-2 w-full sm:w-auto`}>
       {/* Theme */}
-      <div className="relative">
+      <div className={`relative ${isVertical ? 'w-full' : ''}`}>
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value as 'light' | 'dark' | 'system')}
-          className="appearance-none rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-medium text-slate-600 dark:text-slate-300 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`capitalize ${isVertical ? 'w-full' : ''} appearance-none rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-medium text-slate-600 dark:text-slate-300 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500`}
         >
           <option value="light">☀️ {t('theme_light')}</option>
           <option value="dark">🌙 {t('theme_dark')}</option>
@@ -27,11 +27,11 @@ export default function AppSettings() {
       </div>
 
       {/* Language */}
-      <div className="relative">
+      <div className={`relative ${isVertical ? 'w-full' : ''}`}>
         <select
           value={i18n.resolvedLanguage || 'id'}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
-          className="appearance-none rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-medium text-slate-600 dark:text-slate-300 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`capitalize ${isVertical ? 'w-full' : ''} appearance-none rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-medium text-slate-600 dark:text-slate-300 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500`}
         >
           <option value="id">🇮🇩 ID</option>
           <option value="en">🇬🇧 EN</option>
@@ -44,12 +44,12 @@ export default function AppSettings() {
       </div>
 
       {/* Currency */}
-      <div className="relative">
+      <div className={`relative ${isVertical ? 'w-full' : ''}`}>
         <button
           onClick={() => setShowCurrency(!showCurrency)}
-          className="flex items-center gap-1 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-bold text-indigo-600 dark:text-indigo-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/90 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`${isVertical ? 'w-full justify-between' : ''} flex items-center gap-1 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800/70 py-2 pl-3 pr-8 text-xs font-bold text-indigo-600 dark:text-indigo-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/90 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
         >
-          💰 {currency.code}
+          <span>💰 {currency.code}</span>
           <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-slate-400 text-xs">▼</span>
         </button>
         {showCurrency && (

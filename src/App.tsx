@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Navbar from './components/Navbar';
 import SpendForm from './components/SpendForm';
 import SpendList from './components/SpendList';
 import FilterBar from './components/FilterBar';
 import SummaryCard from './components/SummaryCard';
-import DataActions from './components/DataActions';
-import AppSettings from './components/AppSettings';
 import DashboardCharts from './components/ExpenseCharts';
 import BudgetProgress from './components/BudgetProgress';
 import RecurringForm from './components/RecurringForm';
@@ -52,20 +51,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
-      <div className="mx-auto max-w-6xl px-6 py-8">
-        {/* Header */}
-        <header className="mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-300 dark:to-purple-300">
-              📊 {t('app_title')}
-            </h1>
-            <p className="mt-2 text-lg text-slate-500 dark:text-indigo-200/60">{t('app_subtitle')}</p>
-          </div>
-          <div className="flex flex-col items-start lg:items-end gap-4 w-full lg:w-auto">
-            <AppSettings />
-            <DataActions items={filteredItems} onImport={(data: any) => importTransactions(data)} />
-          </div>
-        </header>
+      <Navbar items={filteredItems} onImport={(data: any) => importTransactions(data)} />
+      
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+        {/* Intro Text */}
+        <div className="mb-8">
+          <p className="text-lg text-slate-500 dark:text-indigo-200/60">{t('app_subtitle')}</p>
+        </div>
 
         {/* Filter */}
         <div className="mb-8">
