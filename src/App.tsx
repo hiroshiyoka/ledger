@@ -17,6 +17,8 @@ import { useTransactions } from './hooks/useTransactions';
 import { useBudget } from './hooks/useBudget';
 import { useRecurring } from './hooks/useRecurring';
 
+import CalendarView from './components/CalendarView';
+
 export default function App() {
   const { t } = useTranslation();
   const { 
@@ -30,6 +32,7 @@ export default function App() {
   const [editItem, setEditItem] = useState<Transaction | null>(null);
   const [editRecurring, setEditRecurring] = useState<RecurringTransaction | null>(null);
   const [showRecurring, setShowRecurring] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
 
   useEffect(() => {
     const newTx = generateTransactions();
@@ -110,12 +113,35 @@ export default function App() {
           )}
         </div>
 
-        {/* Transaction History */}
+        {/* Transaction History / Calendar */}
         <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 p-6 shadow-md">
-          <h2 className="mb-5 text-lg font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-3">
-            📋 {t('transaction_history')}
-          </h2>
-          <SpendList items={sortedItems} onEdit={setEditItem} onDelete={deleteTransaction} />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+            <h2 className="text-lg font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-3">
+              📋 {t('transaction_history')}
+            </h2>
+            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-fit">
+              <button 
+                onClick={() => setViewMode('list')}
+                className={`flex-1 px-4 py-1.5 text-sm font-bold rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
+              >
+                📋 {t('filter_all') || 'List'}
+              </button>
+              <button 
+                onClick={() => setViewMode('calendar')}
+                className={`flex-1 px-4 py-1.5 text-sm font-bold rounded-lg transition-all duration-200 ${viewMode === 'calendar' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
+              >
+                📅 {t('calendar') || 'Calendar'}
+              </button>
+            </div>
+          </div>
+
+          {viewMode === 'list' ? (
+            <SpendList items={sortedItems} onEdit={setEditItem} onDelete={deleteTransaction} />
+          ) : (
+            <div className="-mx-2 sm:mx-0">
+              <CalendarView items={filteredItems} onEdit={setEditItem} onDelete={deleteTransaction} />
+            </div>
+          )}
         </div>
       </div>
     </div>
