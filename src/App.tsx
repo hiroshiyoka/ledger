@@ -6,10 +6,10 @@ import SpendForm from './components/SpendForm';
 import SpendList from './components/SpendList';
 import FilterBar from './components/FilterBar';
 import SummaryCard from './components/SummaryCard';
-import DashboardCharts from './components/ExpenseCharts';
-import BudgetProgress from './components/BudgetProgress';
 import RecurringForm from './components/RecurringForm';
 import RecurringList from './components/RecurringList';
+import DashboardCharts from './components/ExpenseCharts';
+import BudgetProgress from './components/BudgetProgress';
 
 import type { Transaction, RecurringTransaction } from './types';
 
@@ -17,6 +17,7 @@ import { useTransactions } from './hooks/useTransactions';
 import { useBudget } from './hooks/useBudget';
 import { useRecurring } from './hooks/useRecurring';
 
+import FinancialHealthCard from './components/FinancialHealthCard';
 import CalendarView from './components/CalendarView';
 
 export default function App() {
@@ -77,6 +78,11 @@ export default function App() {
           <SummaryCard type="income" total={totalIncome} />
           <SummaryCard type="expense" total={totalExpense} />
           <SummaryCard type="net" total={netBalance} />
+        </div>
+
+        {/* Financial Health */}
+        <div className="mb-8">
+          <FinancialHealthCard items={items} budgetLimit={budgetLimit} />
         </div>
 
         {/* Charts */}

@@ -56,3 +56,8 @@ export interface CurrencyConfig {
   symbol: string;
   locale: string;
 }
+
+export interface FinancialHealthSettings {
+  savingsAmount: number;
+  monthlyExpenseTarget: number;
+}
