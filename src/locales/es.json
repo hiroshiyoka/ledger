@@ -73,13 +73,13 @@
   "transaction_history": "Historial de Transacciones",
   "download_pdf_income": "Solo Ingresos",
   "download_pdf_expense": "Solo Gastos",
-  "calendar": "Calendar",
-  "financial_health": "Financial Health",
-  "savings_rate": "Savings Rate",
-  "emergency_fund": "Emergency Fund",
-  "consistency": "Consistency",
-  "budget_adherence": "Budget Adherence",
-  "savings_amount": "Current Savings Amount",
-  "monthly_expense_target": "Monthly Expense Target",
-  "settings": "Settings"
+  "calendar": "Calendario",
+  "financial_health": "Salud Financiera",
+  "savings_rate": "Tasa de Ahorro",
+  "emergency_fund": "Fondo de Emergencia",
+  "consistency": "Consistencia",
+  "budget_adherence": "Cumplimiento del Presupuesto",
+  "savings_amount": "Ahorros Actuales",
+  "monthly_expense_target": "Meta de Gastos Mensual",
+  "settings": "Configuración"
 }

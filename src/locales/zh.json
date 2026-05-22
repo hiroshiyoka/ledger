@@ -73,13 +73,13 @@
   "transaction_history": "交易记录",
   "download_pdf_income": "仅收入",
   "download_pdf_expense": "仅支出",
-  "calendar": "Calendar",
-  "financial_health": "Financial Health",
-  "savings_rate": "Savings Rate",
-  "emergency_fund": "Emergency Fund",
-  "consistency": "Consistency",
-  "budget_adherence": "Budget Adherence",
-  "savings_amount": "Current Savings Amount",
-  "monthly_expense_target": "Monthly Expense Target",
-  "settings": "Settings"
+  "calendar": "日历",
+  "financial_health": "财务健康",
+  "savings_rate": "储蓄率",
+  "emergency_fund": "应急资金",
+  "consistency": "一致性",
+  "budget_adherence": "预算遵守",
+  "savings_amount": "当前储蓄金额",
+  "monthly_expense_target": "每月支出目标",
+  "settings": "设置"
 }

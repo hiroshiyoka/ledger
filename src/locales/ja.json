@@ -73,13 +73,13 @@
   "transaction_history": "取引履歴",
   "download_pdf_income": "収入のみ",
   "download_pdf_expense": "支出のみ",
-  "calendar": "Calendar",
-  "financial_health": "Financial Health",
-  "savings_rate": "Savings Rate",
-  "emergency_fund": "Emergency Fund",
-  "consistency": "Consistency",
-  "budget_adherence": "Budget Adherence",
-  "savings_amount": "Current Savings Amount",
-  "monthly_expense_target": "Monthly Expense Target",
-  "settings": "Settings"
+  "calendar": "カレンダー",
+  "financial_health": "経済的健康",
+  "savings_rate": "貯蓄率",
+  "emergency_fund": "緊急資金",
+  "consistency": "一貫性",
+  "budget_adherence": "予算順守",
+  "savings_amount": "現在の貯蓄額",
+  "monthly_expense_target": "月間支出目標",
+  "settings": "設定"
 }

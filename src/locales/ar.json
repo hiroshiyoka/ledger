@@ -73,13 +73,13 @@
   "transaction_history": "سجل المعاملات",
   "download_pdf_income": "الدخل فقط",
   "download_pdf_expense": "المصروفات فقط",
-  "calendar": "Calendar",
-  "financial_health": "Financial Health",
-  "savings_rate": "Savings Rate",
-  "emergency_fund": "Emergency Fund",
-  "consistency": "Consistency",
-  "budget_adherence": "Budget Adherence",
-  "savings_amount": "Current Savings Amount",
-  "monthly_expense_target": "Monthly Expense Target",
-  "settings": "Settings"
+  "calendar": "التقويم",
+  "financial_health": "الصحة المالية",
+  "savings_rate": "معدل الادخار",
+  "emergency_fund": "صندوق الطوارئ",
+  "consistency": "الاتساق",
+  "budget_adherence": "الالتزام بالميزانية",
+  "savings_amount": "المبلغ المدخر الحالي",
+  "monthly_expense_target": "هدف الإنفاق الشهري",
+  "settings": "الإعدادات"
 }
