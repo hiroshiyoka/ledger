@@ -6,7 +6,7 @@ interface MetricResult {
   score: number;
   value: number;
   maxValue: number;
-  label: string;
+  labelKey: string;
 }
 
 interface FinancialHealthResult {
@@ -147,25 +147,25 @@ export function useFinancialHealth(items: Transaction[], budgetLimit: number): F
         score: savingsRateScore,
         value: savingsRateValue,
         maxValue: 1,
-        label: 'Savings Rate',
+        labelKey: 'savings_rate',
       },
       emergencyFund: {
         score: emFundScore,
         value: emFundMonths,
         maxValue: 12,
-        label: 'Emergency Fund',
+        labelKey: 'emergency_fund',
       },
       consistency: {
         score: consistencyScore,
         value: cv,
         maxValue: 1,
-        label: 'Consistency',
+        labelKey: 'consistency',
       },
       budgetAdherence: {
         score: budgetScore,
         value: budgetRatio,
         maxValue: 1,
-        label: 'Budget Adherence',
+        labelKey: 'budget_adherence',
       },
       settings,
       setSavingsAmount,

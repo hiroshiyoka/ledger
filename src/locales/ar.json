@@ -72,5 +72,14 @@
   "download_csv": "تحميل CSV",
   "transaction_history": "سجل المعاملات",
   "download_pdf_income": "الدخل فقط",
-  "download_pdf_expense": "المصروفات فقط"
+  "download_pdf_expense": "المصروفات فقط",
+  "calendar": "Calendar",
+  "financial_health": "Financial Health",
+  "savings_rate": "Savings Rate",
+  "emergency_fund": "Emergency Fund",
+  "consistency": "Consistency",
+  "budget_adherence": "Budget Adherence",
+  "savings_amount": "Current Savings Amount",
+  "monthly_expense_target": "Monthly Expense Target",
+  "settings": "Settings"
 }

@@ -72,5 +72,14 @@
   "download_csv": "Download CSV",
   "transaction_history": "Transaction History",
   "download_pdf_income": "Income Only",
-  "download_pdf_expense": "Expense Only"
+  "download_pdf_expense": "Expense Only",
+  "calendar": "Calendar",
+  "financial_health": "Financial Health",
+  "savings_rate": "Savings Rate",
+  "emergency_fund": "Emergency Fund",
+  "consistency": "Consistency",
+  "budget_adherence": "Budget Adherence",
+  "savings_amount": "Current Savings Amount",
+  "monthly_expense_target": "Monthly Expense Target",
+  "settings": "Settings"
 }

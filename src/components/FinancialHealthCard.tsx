@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Heart, TrendingUp, Shield, BarChart3, PiggyBank, Settings } from 'lucide-react';
 
 import type { Transaction } from '../types';
@@ -67,6 +68,7 @@ function MetricBar({ label, score, value, icon, format }: {
 }
 
 export default function FinancialHealthCard({ items, budgetLimit }: FinancialHealthCardProps) {
+  const { t } = useTranslation();
   const health = useFinancialHealth(items, budgetLimit);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -82,7 +84,7 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
             <Heart size={24} strokeWidth={2.5} />
           </div>
           <span className="text-lg font-bold text-slate-600 dark:text-slate-200 capitalize">
-            Financial Health
+            {t('financial_health')}
           </span>
         </div>
         <button
@@ -100,28 +102,28 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
         {/* Metrics */}
         <div className="flex-1 w-full space-y-4">
           <MetricBar
-            label={health.savingsRate.label}
+            label={t(health.savingsRate.labelKey)}
             score={health.savingsRate.score}
             value={health.savingsRate.value}
             icon={<TrendingUp size={16} />}
             format={formatPct}
           />
           <MetricBar
-            label={health.emergencyFund.label}
+            label={t(health.emergencyFund.labelKey)}
             score={health.emergencyFund.score}
             value={health.emergencyFund.value}
             icon={<Shield size={16} />}
             format={formatMonths}
           />
           <MetricBar
-            label={health.consistency.label}
+            label={t(health.consistency.labelKey)}
             score={health.consistency.score}
             value={health.consistency.value}
             icon={<BarChart3 size={16} />}
             format={formatRatio}
           />
           <MetricBar
-            label={health.budgetAdherence.label}
+            label={t(health.budgetAdherence.labelKey)}
             score={health.budgetAdherence.score}
             value={health.budgetAdherence.value}
             icon={<PiggyBank size={16} />}
@@ -133,11 +135,11 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
       {/* Settings Panel */}
       {showSettings && (
         <div className="mt-5 pt-5 border-t border-slate-100 dark:border-white/10 space-y-4 animate-in slide-in-from-top-2 fade-in duration-200">
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">Settings</p>
+          <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">{t('settings')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5 capitalize">
-                💰 Current Savings Amount
+              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+                💰 {t('savings_amount')}
               </label>
               <input
                 type="number"
@@ -148,8 +150,8 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5 capitalize">
-                📊 Monthly Expense Target
+              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+                📊 {t('monthly_expense_target')}
               </label>
               <input
                 type="number"

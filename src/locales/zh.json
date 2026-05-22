@@ -72,5 +72,14 @@
   "download_csv": "下载CSV",
   "transaction_history": "交易记录",
   "download_pdf_income": "仅收入",
-  "download_pdf_expense": "仅支出"
+  "download_pdf_expense": "仅支出",
+  "calendar": "Calendar",
+  "financial_health": "Financial Health",
+  "savings_rate": "Savings Rate",
+  "emergency_fund": "Emergency Fund",
+  "consistency": "Consistency",
+  "budget_adherence": "Budget Adherence",
+  "savings_amount": "Current Savings Amount",
+  "monthly_expense_target": "Monthly Expense Target",
+  "settings": "Settings"
 }

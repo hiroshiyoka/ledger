@@ -72,5 +72,14 @@
   "download_csv": "Unduh CSV",
   "transaction_history": "Riwayat Transaksi",
   "download_pdf_income": "Hanya Pemasukan",
-  "download_pdf_expense": "Hanya Pengeluaran"
+  "download_pdf_expense": "Hanya Pengeluaran",
+  "calendar": "Kalender",
+  "financial_health": "Kesehatan Keuangan",
+  "savings_rate": "Rasio Tabungan",
+  "emergency_fund": "Dana Darurat",
+  "consistency": "Konsistensi",
+  "budget_adherence": "Kepatuhan Anggaran",
+  "savings_amount": "Jumlah Tabungan Saat Ini",
+  "monthly_expense_target": "Target Pengeluaran Bulanan",
+  "settings": "Pengaturan"
 }
