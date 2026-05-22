@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Heart, TrendingUp, Shield, BarChart3, PiggyBank, Settings } from 'lucide-react';
 
 import type { Transaction } from '../types';
@@ -49,18 +48,18 @@ function MetricBar({ label, score, value, icon, format }: {
   const barWidth = Math.max(4, (score / 100) * 100);
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400">
           {icon}
-          <span>{label}</span>
+          <span className="capitalize">{label}</span>
         </div>
         <div className="text-right">
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{format(value)}</span>
-          <span className="text-[10px] text-slate-400 ml-1">/ {score}/100</span>
+          <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{format(value)}</span>
+          <span className="text-xs text-slate-400 ml-1.5">/ {score}/100</span>
         </div>
       </div>
-      <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+      <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${barWidth}%` }} />
       </div>
     </div>
@@ -68,7 +67,6 @@ function MetricBar({ label, score, value, icon, format }: {
 }
 
 export default function FinancialHealthCard({ items, budgetLimit }: FinancialHealthCardProps) {
-  const { t } = useTranslation();
   const health = useFinancialHealth(items, budgetLimit);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -83,8 +81,8 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
           <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-900/30 shadow-sm text-rose-500">
             <Heart size={24} strokeWidth={2.5} />
           </div>
-          <span className="text-base font-bold text-slate-600 dark:text-slate-200">
-            {t('financial_health') || 'Financial Health'}
+          <span className="text-lg font-bold text-slate-600 dark:text-slate-200 capitalize">
+            Financial Health
           </span>
         </div>
         <button
@@ -100,33 +98,33 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
         <CircularScore score={health.overallScore} grade={health.grade} gradeColor={health.gradeColor} />
 
         {/* Metrics */}
-        <div className="flex-1 w-full space-y-3">
+        <div className="flex-1 w-full space-y-4">
           <MetricBar
             label={health.savingsRate.label}
             score={health.savingsRate.score}
             value={health.savingsRate.value}
-            icon={<TrendingUp size={14} />}
+            icon={<TrendingUp size={16} />}
             format={formatPct}
           />
           <MetricBar
             label={health.emergencyFund.label}
             score={health.emergencyFund.score}
             value={health.emergencyFund.value}
-            icon={<Shield size={14} />}
+            icon={<Shield size={16} />}
             format={formatMonths}
           />
           <MetricBar
             label={health.consistency.label}
             score={health.consistency.score}
             value={health.consistency.value}
-            icon={<BarChart3 size={14} />}
+            icon={<BarChart3 size={16} />}
             format={formatRatio}
           />
           <MetricBar
             label={health.budgetAdherence.label}
             score={health.budgetAdherence.score}
             value={health.budgetAdherence.value}
-            icon={<PiggyBank size={14} />}
+            icon={<PiggyBank size={16} />}
             format={formatRatio}
           />
         </div>
@@ -135,29 +133,29 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
       {/* Settings Panel */}
       {showSettings && (
         <div className="mt-5 pt-5 border-t border-slate-100 dark:border-white/10 space-y-4 animate-in slide-in-from-top-2 fade-in duration-200">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">{t('settings') || 'Settings'}</p>
+          <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">Settings</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
-                💰 {t('savings_amount') || 'Current Savings Amount'}
+              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5 capitalize">
+                💰 Current Savings Amount
               </label>
               <input
                 type="number"
                 value={health.settings.savingsAmount}
                 onChange={(e) => health.setSavingsAmount(Number(e.target.value))}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
-                📊 {t('monthly_expense_target') || 'Monthly Expense Target'}
+              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5 capitalize">
+                📊 Monthly Expense Target
               </label>
               <input
                 type="number"
                 value={health.settings.monthlyExpenseTarget}
                 onChange={(e) => health.setMonthlyExpenseTarget(Number(e.target.value))}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="0"
               />
             </div>
