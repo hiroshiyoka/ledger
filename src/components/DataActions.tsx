@@ -69,7 +69,7 @@ export default function DataActions({ items, onImport, isVertical = false }: Dat
   };
 
   return (
-    <div className={`flex ${isVertical ? 'flex-col items-stretch' : 'flex-wrap items-center'} gap-2 w-full sm:w-auto`}>
+    <div className={`flex ${isVertical ? 'flex flex-col items-stretch' : 'flex-wrap items-center'} gap-2 w-full sm:w-auto`}>
       <input
         type="file"
         accept=".json"
@@ -79,21 +79,21 @@ export default function DataActions({ items, onImport, isVertical = false }: Dat
       />
       <button
         onClick={handleImportClick}
-        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50`}
+        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-lg border border-hairline-strong bg-surface-card/70 px-4 py-2 text-body-sm font-[500] text-body transition-colors hover:bg-surface-elevated active:bg-surface-elevated  `}
         title={t('import_tooltip')}
       >
         📥 {t('import')}
       </button>
       <button
         onClick={handleExportJson}
-        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700/50 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-700/50`}
+        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-lg border border-hairline-strong bg-surface-card/70 px-4 py-2 text-body-sm font-[500] text-body transition-colors hover:bg-surface-elevated active:bg-surface-elevated  `}
         title={t('backup_tooltip')}
       >
         💾 {t('backup')}
       </button>
       <button
         onClick={handleExportCsv}
-        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 active:bg-emerald-200 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-300`}
+        className={`capitalize ${isVertical ? 'w-full justify-start' : ''} flex items-center gap-2 rounded-lg border-emerald-200 bg-surface-card px-4 py-2 text-body-sm font-[500] text-emerald-700 transition-colors hover:bg-surface-elevated active:bg-emerald-200   `}
         title={t('download_csv')}
       >
         📊 {t('csv')}
@@ -101,28 +101,28 @@ export default function DataActions({ items, onImport, isVertical = false }: Dat
       <div className={`relative ${isVertical ? 'w-full' : ''}`} ref={pdfMenuRef}>
         <button
           onClick={() => setShowPdfMenu(!showPdfMenu)}
-          className={`capitalize ${isVertical ? 'w-full justify-between' : ''} flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100 active:bg-indigo-200 dark:border-indigo-500/30 dark:bg-indigo-500/20 dark:text-indigo-300`}
+          className={`capitalize ${isVertical ? 'w-full justify-between' : ''} flex items-center gap-2 rounded-lg border-hairline-strong bg-surface-elevated px-4 py-2 text-body-sm font-[500] text-accent-blue transition-colors hover:bg-surface-elevated active:bg-surface-elevated   `}
         >
           <span>📄 {t('pdf')}</span>
-          <span className="text-xs">▼</span>
+          <span className="text-caption">▼</span>
         </button>
         {showPdfMenu && (
-          <div className="absolute top-full left-0 mt-2 z-20 w-52 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/20 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute top-full left-0 mt-2 z-20 w-52 bg-surface-card border border-hairline-strong rounded-lg overflow-hidden">
             <button
               onClick={() => handleGeneratePDF('all')}
-              className="capitalize w-full text-left px-4 py-3 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-white/10"
+              className="capitalize w-full text-left px-4 py-3 text-body-sm text-body hover:bg-surface-elevated transition-colors border-b border border-hairline"
             >
               📋 {t('download_pdf_all')}
             </button>
             <button
               onClick={() => handleGeneratePDF('income')}
-              className="capitalize w-full text-left px-4 py-3 text-sm text-emerald-600 dark:text-emerald-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border-b border-slate-100 dark:border-white/10"
+              className="capitalize w-full text-left px-4 py-3 text-body-sm text-accent-green hover:bg-surface-elevated transition-colors border-b border border-hairline"
             >
               📈 {t('download_pdf_income')}
             </button>
             <button
               onClick={() => handleGeneratePDF('expense')}
-              className="capitalize w-full text-left px-4 py-3 text-sm text-rose-600 dark:text-rose-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+              className="capitalize w-full text-left px-4 py-3 text-body-sm text-rose-600 hover:bg-surface-elevated transition-colors"
             >
               📉 {t('download_pdf_expense')}
             </button>

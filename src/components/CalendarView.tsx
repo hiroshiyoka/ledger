@@ -73,28 +73,28 @@ export default function CalendarView({ items, onEdit, onDelete }: CalendarViewPr
   return (
     <div className="flex flex-col gap-6">
       {/* Calendar Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-slate-900/80 p-4 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-card p-4 rounded-lg border border-hairline-strong">
+        <h2 className="text-heading-sm font-[500] text-ink">
           {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
         </h2>
         <div className="flex items-center gap-2">
-          <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+          <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-surface-elevated transition-colors text-charcoal">
             ◀
           </button>
-          <button onClick={goToday} className="px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-bold text-slate-600 dark:text-slate-300">
+          <button onClick={goToday} className="px-4 py-2 rounded-lg hover:bg-surface-elevated transition-colors text-body-sm font-[500] text-charcoal">
             {t('filter_today') || 'Today'}
           </button>
-          <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+          <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-surface-elevated transition-colors text-charcoal">
             ▶
           </button>
         </div>
       </div>
 
       {/* Calendar Grid */}
-      <div className="bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden">
-        <div className="grid grid-cols-7 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/50">
+      <div className="bg-surface-card rounded-lg border border-hairline-strong overflow-hidden">
+        <div className="grid grid-cols-7 border-b border border-hairline-strong bg-surface-card">
           {WEEKDAYS.map(wd => (
-            <div key={wd} className="py-3 text-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            <div key={wd} className="py-3 text-center text-caption font-[500] text-mute uppercase tracking-wider">
               {wd}
             </div>
           ))}
@@ -112,14 +112,14 @@ export default function CalendarView({ items, onEdit, onDelete }: CalendarViewPr
                 key={iso + i}
                 onClick={() => setSelectedDate(iso)}
                 className={`
-                  relative min-h-[5rem] sm:min-h-[6rem] p-1 sm:p-2 border-r border-b border-slate-100 dark:border-white/5 transition-all text-left flex flex-col hover:bg-slate-50 dark:hover:bg-slate-800/50 focus:outline-none
-                  ${!isCurrentMonth ? 'opacity-40 bg-slate-50/50 dark:bg-slate-950/20' : ''}
-                  ${isSelected ? 'ring-2 ring-inset ring-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/20 z-10' : ''}
+                  relative min-h-[5rem] sm:min-h-[6rem] p-1 sm:p-2 border-r border-b border border-hairline  transition-all text-left flex flex-col hover:bg-surface-elevated  focus:outline-none
+                  ${!isCurrentMonth ? 'opacity-40 bg-canvas/50 bg-canvas' : ''}
+                  ${isSelected ? 'ring-2 ring-inset ring-ink bg-surface-elevated  z-10' : ''}
                 `}
               >
                 <div className={`
-                  w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xs sm:text-sm font-bold mb-1
-                  ${isToday ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-700 dark:text-slate-300'}
+                  w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-caption sm:text-body-sm font-[500] mb-1
+                  ${isToday ? 'bg-primary text-primary-on shadow-none' : 'text-body '}
                 `}>
                   {d.getDate()}
                 </div>
@@ -127,12 +127,12 @@ export default function CalendarView({ items, onEdit, onDelete }: CalendarViewPr
                 {dayData && (
                   <div className="flex flex-col gap-0.5 mt-auto w-full">
                     {dayData.income > 0 && (
-                      <div className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-1 rounded truncate w-full" title={`+${dayData.income}`}>
+                      <div className="text-[10px] sm:text-caption font-[500] text-accent-green bg-surface-card px-1 rounded truncate w-full" title={`+${dayData.income}`}>
                         +{formatCurrency(dayData.income, currency)}
                       </div>
                     )}
                     {dayData.expense > 0 && (
-                      <div className="text-[10px] sm:text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 px-1 rounded truncate w-full" title={`-${dayData.expense}`}>
+                      <div className="text-[10px] sm:text-caption font-[500] text-rose-600 bg-rose-50 px-1 rounded truncate w-full" title={`-${dayData.expense}`}>
                         -{formatCurrency(dayData.expense, currency)}
                       </div>
                     )}
@@ -146,12 +146,12 @@ export default function CalendarView({ items, onEdit, onDelete }: CalendarViewPr
 
       {/* Selected Day Details */}
       {selectedDate && (
-        <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 p-6 shadow-md mt-4 animate-in slide-in-from-bottom-4 fade-in duration-300">
+        <div className="rounded-lg border border-hairline-strong bg-surface-card p-6 mt-4 animate-in slide-in-from-bottom-4 fade-in duration-300">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <h3 className="text-body-lg font-[500] text-ink flex items-center gap-2">
               📅 {new Date(selectedDate).toLocaleDateString('default', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </h3>
-            <button onClick={() => setSelectedDate(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+            <button onClick={() => setSelectedDate(null)} className="text-ash hover:text-charcoal">
               ✕
             </button>
           </div>
@@ -159,7 +159,7 @@ export default function CalendarView({ items, onEdit, onDelete }: CalendarViewPr
           {selectedItems.length > 0 ? (
             <SpendList items={selectedItems} onEdit={onEdit} onDelete={onDelete} />
           ) : (
-            <div className="text-center py-10 text-slate-500 dark:text-slate-400">
+            <div className="text-center py-10 text-mute">
               <p>📭 {t('no_data') || 'No transactions on this date.'}</p>
             </div>
           )}

@@ -54,13 +54,13 @@ export default function App() {
   const sortedItems = [...filteredItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
+    <div className="min-h-screen bg-canvas text-ink font-ui">
       <Navbar items={filteredItems} onImport={(data: any) => importTransactions(data)} />
       
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-section">
         {/* Intro Text */}
         <div className="mb-8">
-          <p className="text-lg text-slate-500 dark:text-indigo-200/60">{t('app_subtitle')}</p>
+          <p className="text-body-lg text-body">{t('app_subtitle')}</p>
         </div>
 
         {/* Filter */}
@@ -91,26 +91,26 @@ export default function App() {
         </div>
 
         {/* Transaction Form */}
-        <div className="mb-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 p-6 shadow-md">
-          <h2 className="mb-5 text-lg font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+        <div className="mb-8 rounded-lg border border-hairline-strong bg-surface-card p-6">
+          <h2 className="mb-5 text-body-lg font-[500] text-mute uppercase tracking-widest">
             {editItem ? `✏️ ${t('edit')}` : `➕ ${t('add_transaction')}`}
           </h2>
           <SpendForm key={editItem?.id ?? 'new'} onSubmit={handleSubmit} editItem={editItem} onCancelEdit={() => setEditItem(null)} />
         </div>
 
         {/* Recurring Section */}
-        <div className="mb-8 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 shadow-md overflow-hidden">
-          <button onClick={() => setShowRecurring(!showRecurring)} className="w-full flex items-center justify-between p-6 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-            <h2 className="text-lg font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-3">
+        <div className="mb-8 rounded-lg border border-hairline-strong bg-surface-card overflow-hidden">
+          <button onClick={() => setShowRecurring(!showRecurring)} className="w-full flex items-center justify-between p-6 hover:bg-surface-elevated transition-colors">
+            <h2 className="text-body-lg font-[500] text-mute uppercase tracking-widest flex items-center gap-3">
               🔄 {t('recurring_transaction')}
               {recurringItems.length > 0 && (
-                <span className="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 text-sm px-3 py-1 rounded-full font-bold">{recurringItems.length}</span>
+                <span className="bg-surface-elevated text-ink text-body-sm px-3 py-1 rounded-full font-[500]">{recurringItems.length}</span>
               )}
             </h2>
-            <span className={`text-slate-400 text-xl transition-transform ${showRecurring ? 'rotate-180' : ''}`}>▾</span>
+            <span className={`text-ash text-heading-sm transition-transform ${showRecurring ? 'rotate-180' : ''}`}>▾</span>
           </button>
           {showRecurring && (
-            <div className="px-6 pb-6 space-y-5 border-t border-slate-100 dark:border-white/10">
+            <div className="px-6 pb-6 space-y-5 border-t border-hairline">
               <div className="pt-5">
                 <RecurringForm key={editRecurring?.id ?? 'new-recurring'} onSubmit={handleRecurringSubmit} existingItem={editRecurring} onCancelEdit={() => setEditRecurring(null)} />
               </div>
@@ -120,21 +120,21 @@ export default function App() {
         </div>
 
         {/* Transaction History / Calendar */}
-        <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 p-6 shadow-md">
+        <div className="rounded-lg border border-hairline-strong bg-surface-card p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-            <h2 className="text-lg font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-3">
+            <h2 className="text-body-lg font-[500] text-mute uppercase tracking-widest flex items-center gap-3">
               📋 {t('transaction_history')}
             </h2>
-            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-fit">
+            <div className="flex bg-surface-elevated p-1 rounded-lg w-fit">
               <button 
                 onClick={() => setViewMode('list')}
-                className={`flex-1 px-4 py-1.5 text-sm font-bold rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
+                className={`flex-1 px-4 py-1.5 text-body-sm font-[500] rounded-lg transition-all duration-200 ${viewMode === 'list' ? 'bg-surface-card text-ink' : 'text-mute hover:text-ink'}`}
               >
                 📋 {t('filter_all') || 'List'}
               </button>
               <button 
                 onClick={() => setViewMode('calendar')}
-                className={`flex-1 px-4 py-1.5 text-sm font-bold rounded-lg transition-all duration-200 ${viewMode === 'calendar' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
+                className={`flex-1 px-4 py-1.5 text-body-sm font-[500] rounded-lg transition-all duration-200 ${viewMode === 'calendar' ? 'bg-surface-card text-ink' : 'text-mute hover:text-ink'}`}
               >
                 📅 {t('calendar') || 'Calendar'}
               </button>

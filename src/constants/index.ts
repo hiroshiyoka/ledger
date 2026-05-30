@@ -19,36 +19,36 @@ export const DEFAULT_WALLETS: Wallet[] = [
   {
     id: DEFAULT_WALLET_ID,
     name: 'Cash / Dompet Utama',
-    color: 'bg-indigo-500',
+    color: 'bg-surface-light',
     icon: 'Wallet'
   }
 ];
 
 export const DEFAULT_CATEGORIES: Category[] = [
   // Expenses
-  { id: 'cat-exp-food', name: 'Food & Drink', type: 'expense', color: 'bg-teal-500', icon: 'Utensils' },
-  { id: 'cat-exp-transport', name: 'Transport', type: 'expense', color: 'bg-blue-500', icon: 'Car' },
-  { id: 'cat-exp-entertainment', name: 'Entertainment', type: 'expense', color: 'bg-purple-500', icon: 'Film' },
-  { id: 'cat-exp-shopping', name: 'Shopping', type: 'expense', color: 'bg-rose-500', icon: 'ShoppingBag' },
-  { id: 'cat-exp-bills', name: 'Bills & Utilities', type: 'expense', color: 'bg-orange-500', icon: 'Zap' },
-  { id: 'cat-exp-other', name: 'Other Expense', type: 'expense', color: 'bg-slate-500', icon: 'Box' },
+  { id: 'cat-exp-food', name: 'Food & Drink', type: 'expense', color: 'bg-accent-orange', icon: 'Utensils' },
+  { id: 'cat-exp-transport', name: 'Transport', type: 'expense', color: 'bg-accent-blue', icon: 'Car' },
+  { id: 'cat-exp-entertainment', name: 'Entertainment', type: 'expense', color: 'bg-accent-orange', icon: 'Film' },
+  { id: 'cat-exp-shopping', name: 'Shopping', type: 'expense', color: 'bg-accent-red', icon: 'ShoppingBag' },
+  { id: 'cat-exp-bills', name: 'Bills & Utilities', type: 'expense', color: 'bg-accent-orange', icon: 'Zap' },
+  { id: 'cat-exp-other', name: 'Other Expense', type: 'expense', color: 'bg-accent-yellow', icon: 'Box' },
   // Incomes
-  { id: 'cat-inc-salary', name: 'Salary', type: 'income', color: 'bg-emerald-500', icon: 'Briefcase' },
-  { id: 'cat-inc-investment', name: 'Investment', type: 'income', color: 'bg-cyan-500', icon: 'TrendingUp' },
-  { id: 'cat-inc-other', name: 'Other Income', type: 'income', color: 'bg-slate-500', icon: 'PlusCircle' }
+  { id: 'cat-inc-salary', name: 'Salary', type: 'income', color: 'bg-accent-green', icon: 'Briefcase' },
+  { id: 'cat-inc-investment', name: 'Investment', type: 'income', color: 'bg-accent-green', icon: 'TrendingUp' },
+  { id: 'cat-inc-other', name: 'Other Income', type: 'income', color: 'bg-accent-blue', icon: 'PlusCircle' }
 ];
 
 export const CATEGORY_CONFIG = {
   daily: { 
-    label: 'Daily Spend 🍟', 
-    color: 'text-teal-600 dark:text-teal-300',
-    bg: 'bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900/40 dark:to-emerald-900/40',
-    border: 'border-teal-200 dark:border-teal-700/50'
+    label: 'Daily Spend 🛒', 
+    color: 'text-accent-blue',
+    bg: 'bg-surface-card',
+    border: 'border-hairline-strong'
   },
   big: { 
-    label: 'Big Spend 🚀', 
-    color: 'text-rose-600 dark:text-rose-300',
-    bg: 'bg-gradient-to-br from-rose-50 to-orange-50 dark:from-rose-900/40 dark:to-orange-900/40',
-    border: 'border-rose-200 dark:border-rose-700/50'
+    label: 'Big Spend 💰', 
+    color: 'text-accent-red',
+    bg: 'bg-surface-card',
+    border: 'border-hairline-strong'
   },
 } as const;

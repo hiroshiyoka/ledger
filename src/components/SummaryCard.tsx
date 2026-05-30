@@ -11,23 +11,23 @@ interface SummaryCardProps {
 
 const CONFIG = {
   net: {
-    color: 'text-indigo-600 dark:text-indigo-300',
-    bg: 'bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40',
-    border: 'border-indigo-200 dark:border-indigo-700/50',
+    color: 'text-ink',
+    bg: 'bg-surface-card',
+    border: 'border-hairline-strong',
     icon: DollarSign,
     labelKey: 'net_balance'
   },
   income: {
-    color: 'text-emerald-600 dark:text-emerald-300',
-    bg: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/40',
-    border: 'border-emerald-200 dark:border-emerald-700/50',
+    color: 'text-accent-green',
+    bg: 'bg-surface-card',
+    border: 'border-hairline-strong',
     icon: TrendingUp,
     labelKey: 'total_income'
   },
   expense: {
-    color: 'text-rose-600 dark:text-rose-300',
-    bg: 'bg-gradient-to-br from-rose-50 to-orange-50 dark:from-rose-900/40 dark:to-orange-900/40',
-    border: 'border-rose-200 dark:border-rose-700/50',
+    color: 'text-accent-red',
+    bg: 'bg-surface-card',
+    border: 'border-hairline-strong',
     icon: TrendingDown,
     labelKey: 'total_expense'
   }
@@ -38,16 +38,16 @@ export default function SummaryCard({ type, total }: SummaryCardProps) {
   const { color, bg, border, icon: Icon, labelKey } = CONFIG[type];
 
   return (
-    <div className={`rounded-2xl border ${border} ${bg} p-6 shadow-md transition-all hover:-translate-y-0.5`}>
+    <div className={`rounded-lg border ${border} ${bg} p-6 shadow-none transition-all hover:-translate-y-0.5`}>
       <div className="flex items-center gap-3 mb-4">
-        <div className={`p-2.5 rounded-xl bg-white/60 dark:bg-black/20 shadow-sm ${color}`}>
+        <div className={`p-2.5 rounded-lg bg-surface-elevated shadow-none ${color}`}>
           <Icon size={24} strokeWidth={2.5} />
         </div>
-        <span className="text-base font-bold text-slate-600 dark:text-slate-200">
+        <span className="text-base font-[500] text-charcoal">
           {t(labelKey)}
         </span>
       </div>
-      <p className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+      <p className="text-3xl font-[500] text-ink tracking-tight font-ui">
         {formatCurrency(total)}
       </p>
     </div>

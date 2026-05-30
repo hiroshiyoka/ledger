@@ -15,14 +15,18 @@ export interface TrendData {
 
 // Convert Tailwind classes like 'bg-teal-500' to hex for Recharts
 const COLOR_MAP: Record<string, string> = {
-  'bg-teal-500': '#14b8a6',
-  'bg-blue-500': '#3b82f6',
-  'bg-purple-500': '#a855f7',
-  'bg-rose-500': '#f43f5e',
-  'bg-orange-500': '#f97316',
-  'bg-slate-500': '#64748b',
-  'bg-emerald-500': '#10b981',
-  'bg-cyan-500': '#06b6d4',
+  'bg-accent-orange': '#ff801f',
+  'bg-accent-blue': '#3b9eff',
+  'bg-accent-red': '#ff2047',
+  'bg-accent-green': '#11ff99',
+  'bg-accent-yellow': '#ffc53d',
+  'bg-teal-500': '#3b9eff',
+  'bg-blue-500': '#3b9eff',
+  'bg-purple-500': '#ff801f',
+  'bg-rose-500': '#ff2047',
+  'bg-orange-500': '#ff801f',
+  'bg-slate-500': '#a1a4a5',
+  'bg-cyan-500': '#3b9eff',
 };
 
 export function getPieChartData(transactions: Transaction[], categories: Category[], type: 'expense' | 'income' = 'expense'): PieData[] {

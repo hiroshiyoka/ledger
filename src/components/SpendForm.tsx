@@ -67,13 +67,13 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Type Toggle */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex bg-slate-100 dark:bg-black/30 p-1.5 rounded-xl">
+        <div className="flex bg-surface-elevated p-1.5 rounded-lg w-full sm:w-auto">
           <button type="button" onClick={() => setType('expense')}
-            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${type === 'expense' ? 'bg-white dark:bg-slate-700 text-rose-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+            className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-body-sm font-[500] transition-all ${type === 'expense' ? 'bg-surface-card text-accent-red shadow-none' : 'text-mute hover:text-ink'}`}>
             📉 {t('expense')}
           </button>
           <button type="button" onClick={() => setType('income')}
-            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${type === 'income' ? 'bg-white dark:bg-slate-700 text-emerald-500 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+            className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-body-sm font-[500] transition-all ${type === 'income' ? 'bg-surface-card text-accent-green shadow-none' : 'text-mute hover:text-ink'}`}>
             📈 {t('income')}
           </button>
         </div>
@@ -83,7 +83,7 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
           placeholder={t('expense_name')}
           value={name}
           onChange={e => setName(e.target.value)}
-          className="flex-1 min-w-[200px] rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+          className="flex-1 min-w-[200px] rounded-lg border border-hairline-strong bg-canvas px-4 py-3 text-base text-ink placeholder-ash focus:outline-none focus:border-ink"
           required
         />
         <input
@@ -91,47 +91,47 @@ export default function SpendForm({ onSubmit, editItem, onCancelEdit }: SpendFor
           placeholder={t('amount')}
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          className="w-36 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+          className="w-36 rounded-lg border border-hairline-strong bg-canvas px-4 py-3 text-base text-ink focus:outline-none focus:border-ink"
           min={0} step="0.01" required
         />
         <input
           type="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="w-44 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+          className="w-44 rounded-lg border border-hairline-strong bg-canvas px-4 py-3 text-base text-ink focus:outline-none focus:border-ink"
           required
         />
         <select
           value={categoryId}
           onChange={e => setCategoryId(e.target.value)}
-          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer"
+          className="rounded-lg border border-hairline-strong bg-canvas px-4 py-3 text-base text-ink focus:outline-none focus:border-ink cursor-pointer"
           required
         >
           {typeCategories.map(cat => (
-            <option key={cat.id} value={cat.id} className="bg-white text-slate-800 dark:bg-slate-800 dark:text-white">{cat.name}</option>
+            <option key={cat.id} value={cat.id} className="bg-canvas text-ink">{cat.name}</option>
           ))}
         </select>
         <select
           value={walletId}
           onChange={e => setWalletId(e.target.value)}
-          className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20 px-4 py-3 text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm cursor-pointer"
+          className="rounded-lg border border-hairline-strong bg-canvas px-4 py-3 text-base text-ink focus:outline-none focus:border-ink cursor-pointer"
           required
         >
           {wallets.map(w => (
-            <option key={w.id} value={w.id} className="bg-white text-slate-800 dark:bg-slate-800 dark:text-white">{w.name}</option>
+            <option key={w.id} value={w.id} className="bg-canvas text-ink">{w.name}</option>
           ))}
         </select>
       </div>
-      {error && <p className="text-sm font-bold text-rose-500 dark:text-rose-400">{error}</p>}
+      {error && <p className="text-body-sm font-[500] text-accent-red">{error}</p>}
       <div className="flex items-center gap-3">
         <button type="submit"
-          className="flex items-center gap-2 rounded-xl bg-indigo-600 dark:bg-indigo-500 px-6 py-3 text-base font-bold text-white hover:bg-indigo-700 dark:hover:bg-indigo-400 active:scale-95 transition-all shadow-md">
+          className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-base font-[500] text-primary-on hover:bg-surface-light active:scale-95 transition-all">
           <Plus size={20} strokeWidth={3} />
           {editItem ? t('edit') : t('add_transaction')}
         </button>
         {editItem && (
           <button type="button" onClick={onCancelEdit}
-            className="rounded-xl border border-slate-200 dark:border-white/20 px-6 py-3 text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 active:scale-95 transition-all">
+            className="rounded-lg border border-hairline-strong px-6 py-3 text-base font-[500] text-charcoal hover:bg-surface-elevated active:scale-95 transition-all">
             {t('cancel')}
           </button>
         )}

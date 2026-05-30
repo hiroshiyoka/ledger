@@ -15,12 +15,12 @@ function CircularScore({ score, grade, gradeColor }: { score: number; grade: str
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
 
-  const trackColor = score >= 85 ? '#10b981' : score >= 70 ? '#3b82f6' : score >= 50 ? '#f59e0b' : score >= 30 ? '#f97316' : '#f43f5e';
+  const trackColor = score >= 85 ? '#11ff99' : score >= 70 ? '#3b9eff' : score >= 50 ? '#ffc53d' : score >= 30 ? '#ff801f' : '#ff2047';
 
   return (
     <div className="relative w-36 h-36 mx-auto">
       <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
-        <circle cx="64" cy="64" r={radius} fill="none" stroke="currentColor" strokeWidth="8" className="text-slate-100 dark:text-slate-800" />
+        <circle cx="64" cy="64" r={radius} fill="none" stroke="currentColor" strokeWidth="8" className="text-surface-elevated" />
         <circle
           cx="64" cy="64" r={radius}
           fill="none" stroke={trackColor}
@@ -31,8 +31,8 @@ function CircularScore({ score, grade, gradeColor }: { score: number; grade: str
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={`text-4xl font-black ${gradeColor}`}>{grade}</span>
-        <span className="text-2xl font-bold text-slate-700 dark:text-slate-300">{score}</span>
+        <span className={`text-4xl font-[500] ${gradeColor.replace('rose-500', 'accent-red').replace('amber-500', 'accent-yellow').replace('emerald-500', 'accent-green').replace('blue-500', 'accent-blue')}`} style={{color: trackColor}}>{grade}</span>
+        <span className="text-heading-md font-[500] text-body">{score}</span>
       </div>
     </div>
   );
@@ -45,22 +45,22 @@ function MetricBar({ label, score, value, icon, format }: {
   icon: React.ReactNode;
   format: (v: number) => string;
 }) {
-  const barColor = score >= 80 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+  const barColor = score >= 80 ? 'bg-accent-green' : score >= 50 ? 'bg-accent-yellow' : 'bg-accent-red';
   const barWidth = Math.max(4, (score / 100) * 100);
 
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2 text-body-sm font-[500] text-mute">
           {icon}
           <span className="capitalize">{label}</span>
         </div>
         <div className="text-right">
-          <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{format(value)}</span>
-          <span className="text-xs text-slate-400 ml-1.5">/ {score}/100</span>
+          <span className="text-body-sm font-[500] text-body">{format(value)}</span>
+          <span className="text-caption text-ash ml-1.5">/ {score}/100</span>
         </div>
       </div>
-      <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+      <div className="h-2.5 bg-surface-elevated rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${barWidth}%` }} />
       </div>
     </div>
@@ -77,19 +77,19 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
   const formatRatio = (v: number) => v > 0 ? `${(v * 100).toFixed(0)}%` : 'N/A';
 
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/80 p-6 shadow-md transition-all hover:-translate-y-0.5">
+    <div className="rounded-lg border border-hairline-strong bg-surface-card p-6 transition-all hover:-translate-y-0.5">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-900/30 shadow-sm text-rose-500">
+          <div className="p-2.5 rounded-lg bg-surface-elevated text-accent-red">
             <Heart size={24} strokeWidth={2.5} />
           </div>
-          <span className="text-lg font-bold text-slate-600 dark:text-slate-200 capitalize">
+          <span className="text-body-lg font-[500] text-charcoal capitalize">
             {t('financial_health')}
           </span>
         </div>
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          className="p-2 rounded-lg text-ash hover:text-charcoal hover:bg-surface-elevated transition-colors"
         >
           <Settings size={18} strokeWidth={2} />
         </button>
@@ -134,30 +134,30 @@ export default function FinancialHealthCard({ items, budgetLimit }: FinancialHea
 
       {/* Settings Panel */}
       {showSettings && (
-        <div className="mt-5 pt-5 border-t border-slate-100 dark:border-white/10 space-y-4 animate-in slide-in-from-top-2 fade-in duration-200">
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">{t('settings')}</p>
+        <div className="mt-5 pt-5 border-t border-hairline space-y-4 animate-in slide-in-from-top-2 fade-in duration-200">
+          <p className="text-body-sm font-[500] text-ash uppercase tracking-wider">{t('settings')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+              <label className="block text-body-sm font-[500] text-mute mb-1.5">
                 💰 {t('savings_amount')}
               </label>
               <input
                 type="number"
                 value={health.settings.savingsAmount}
                 onChange={(e) => health.setSavingsAmount(Number(e.target.value))}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-lg border border-hairline-strong bg-canvas px-4 py-2.5 text-body-sm text-ink focus:outline-none focus:border-ink"
                 placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5">
-                📊 {t('monthly_expense_target')}
+              <label className="block text-body-sm font-[500] text-mute mb-1.5">
+                🎯 {t('monthly_expense_target')}
               </label>
               <input
                 type="number"
                 value={health.settings.monthlyExpenseTarget}
                 onChange={(e) => health.setMonthlyExpenseTarget(Number(e.target.value))}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/70 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-lg border border-hairline-strong bg-canvas px-4 py-2.5 text-body-sm text-ink focus:outline-none focus:border-ink"
                 placeholder="0"
               />
             </div>

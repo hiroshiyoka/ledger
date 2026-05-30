@@ -31,11 +31,11 @@ export default function Navbar({ items, onImport }: NavbarProps) {
   };
 
   return (
-    <nav ref={navRef} className="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-sm">
+    <nav ref={navRef} className="sticky top-0 z-40 w-full bg-surface-card backdrop-blur-md border-b border border-hairline-strong">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <span className="text-xl sm:text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-300 dark:to-purple-300">
+          <span className="text-heading-sm:text-heading-md font-[500] tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent-blue to-accent-orange">
             📊 {t('app_title')}
           </span>
         </div>
@@ -46,16 +46,16 @@ export default function Navbar({ items, onImport }: NavbarProps) {
           <div className="relative">
             <button
               onClick={() => toggleDropdown('settings')}
-              className={`capitalize flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+              className={`capitalize flex items-center gap-2 px-4 py-2 rounded-lg text-body-sm font-[500] transition-colors ${
                 openDropdown === 'settings' 
-                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' 
-                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  ? 'bg-surface-elevated text-accent-blue  ' 
+                  : 'text-charcoal  hover:bg-surface-elevated '
               }`}
             >
               ⚙️ {t('settings') || 'Settings'} ▾
             </button>
             {openDropdown === 'settings' && (
-              <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-4 z-50">
+              <div className="absolute right-0 mt-2 w-64 bg-surface-card border border-hairline-strong rounded-lg p-4 z-50">
                 <AppSettings isVertical />
               </div>
             )}
@@ -65,16 +65,16 @@ export default function Navbar({ items, onImport }: NavbarProps) {
           <div className="relative">
             <button
               onClick={() => toggleDropdown('data')}
-              className={`capitalize flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+              className={`capitalize flex items-center gap-2 px-4 py-2 rounded-lg text-body-sm font-[500] transition-colors ${
                 openDropdown === 'data' 
-                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' 
-                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  ? 'bg-surface-elevated text-accent-blue  ' 
+                  : 'text-charcoal  hover:bg-surface-elevated '
               }`}
             >
               📥 {t('data') || 'Data'} ▾
             </button>
             {openDropdown === 'data' && (
-              <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl p-4 z-50">
+              <div className="absolute right-0 mt-2 w-64 bg-surface-card border border-hairline-strong rounded-lg p-4 z-50">
                 <DataActions items={items} onImport={onImport} isVertical />
               </div>
             )}
@@ -83,10 +83,10 @@ export default function Navbar({ items, onImport }: NavbarProps) {
 
         {/* Mobile Nav Toggle */}
         <button
-          className="md:hidden p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+          className="md:hidden p-2 text-mute hover:bg-surface-elevated rounded-lg transition-colors"
           onClick={() => toggleDropdown('mobile')}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 24">
             {openDropdown === 'mobile' ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -98,14 +98,14 @@ export default function Navbar({ items, onImport }: NavbarProps) {
 
       {/* Mobile Menu */}
       {openDropdown === 'mobile' && (
-        <div className="md:hidden border-t border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 space-y-6 max-h-[80vh] overflow-y-auto shadow-xl absolute w-full z-50">
+        <div className="md:hidden border-t border border-hairline-strong bg-surface-card p-4 space-y-6 max-h-[80vh] overflow-y-auto absolute w-full z-50">
           <div className="space-y-3">
-            <p className="capitalize text-xs font-bold text-slate-400 tracking-wider">⚙️ {t('settings') || 'Settings'}</p>
+            <p className="capitalize text-caption font-[500] text-ash tracking-wider">⚙️ {t('settings') || 'Settings'}</p>
             <AppSettings isVertical />
           </div>
-          <div className="h-px w-full bg-slate-100 dark:bg-white/5"></div>
+          <div className="h-px w-full bg-surface-card"></div>
           <div className="space-y-3">
-            <p className="capitalize text-xs font-bold text-slate-400 tracking-wider">📥 {t('data') || 'Data'}</p>
+            <p className="capitalize text-caption font-[500] text-ash tracking-wider">📥 {t('data') || 'Data'}</p>
             <DataActions items={items} onImport={onImport} isVertical />
           </div>
         </div>
